@@ -866,29 +866,26 @@ helpers.prelude(module);
 
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+// Import React
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactDom = require("react-dom");
 var _reactDomDefault = parcelHelpers.interopDefault(_reactDom);
+// Import Components
+var _mainView = require("./components/main-view/main-view");
+var _mainViewDefault = parcelHelpers.interopDefault(_mainView);
 // Import statement to indicate that you need to bundle './index.scss'
 var _indexScss = require("./index.scss");
 // Main component (will eventually use all the others)
 class MyFlixApplication extends _reactDefault.default.Component {
     render() {
-        return(/*#__PURE__*/ _reactDefault.default.createElement("div", {
-            className: "my-flix",
+        return(/*#__PURE__*/ _reactDefault.default.createElement(_mainViewDefault.default, {
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\index.jsx",
-                lineNumber: 11
+                lineNumber: 14
             },
             __self: this
-        }, /*#__PURE__*/ _reactDefault.default.createElement("div", {
-            __source: {
-                fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\index.jsx",
-                lineNumber: 12
-            },
-            __self: this
-        }, "Good morning")));
+        }));
     }
 }
 // Finds the root of your app
@@ -901,7 +898,7 @@ _reactDomDefault.default.render(/*#__PURE__*/ _reactDefault.default.createElemen
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react":"3b2NM","react-dom":"2sg1U","./index.scss":"22H9z","@parcel/transformer-js/src/esmodule-helpers.js":"6BsJi","../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7belF"}],"3b2NM":[function(require,module,exports) {
+},{"react":"3b2NM","react-dom":"2sg1U","./index.scss":"22H9z","@parcel/transformer-js/src/esmodule-helpers.js":"6BsJi","../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7belF","./components/main-view/main-view":"3MRtJ"}],"3b2NM":[function(require,module,exports) {
 'use strict';
 module.exports = require('./cjs/react.development.js');
 
@@ -22002,6 +21999,257 @@ function registerExportsForReactRefresh(module) {
     }
 }
 
-},{"react-refresh/runtime":"2YxSG"}]},["1j6wU","2vh84","5L08P"], "5L08P", "parcelRequire279c")
+},{"react-refresh/runtime":"2YxSG"}],"3MRtJ":[function(require,module,exports) {
+var helpers = require("../../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+helpers.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+// Import React into this file
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+// Import the different components used in this view
+var _movieCard = require("../movie-card/movie-card");
+var _movieView = require("../movie-view/movie-view");
+class MainView extends _reactDefault.default.Component {
+    // The constructor() method will initialize the component and create it in memory
+    constructor(){
+        // super() will call the constructor of the parent class (i.e. React.Component)
+        super();
+        // this.state inside the constructor() method is initializing the starting value of the MainView state to an object containing an array of movies (called movies)
+        this.state = {
+            movies: [
+                {
+                    _id: 1,
+                    Title: 'Inception',
+                    Description: 'desc1...',
+                    ImagePath: '...'
+                },
+                {
+                    _id: 2,
+                    Title: 'The Shawshank Redemption',
+                    Description: 'desc2...',
+                    ImagePath: '...'
+                },
+                {
+                    _id: 3,
+                    Title: 'Gladiator',
+                    Description: 'desc3...',
+                    ImagePath: '...'
+                }
+            ],
+            // Initialize the starting value of selectedMovie, which will be used to display a movies details
+            selectedMovie: null
+        };
+    }
+    // Custom method for loading the movie-view when a movie-card is clicked
+    setSelectedMovie(newSelectedMovie) {
+        this.setState({
+            selectedMovie: newSelectedMovie
+        });
+    }
+    // render() will return the visual representation of the component. Inside the function is the JSX code which will be rendered.
+    render() {
+        // Get the movies array stored in the views state
+        const { movies , selectedMovie  } = this.state;
+        // If the state of the movies array is empty, display an appropriate message
+        if (movies.length === 0) return(/*#__PURE__*/ _reactDefault.default.createElement("div", {
+            className: "main-view",
+            __source: {
+                fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
+                lineNumber: 40
+            },
+            __self: this
+        }, "The list of movies is empty!"));
+        // If a user has selected a movie, change the UI to display the MovieView component for this movie
+        // Else return either the details for a single movie with the MovieView component, or the entire list of movies using movies.map and the MovieCard component (depending on if selectedMovie has been set or not)
+        return(// Note that movies.map will call the provided callback function for each element in the movies array
+        // The key attribute for each movie item will help React distinguish between similar items for efficient changing/removing
+        // The movie attribute uses the movie prop from movie-card.jsx or movie-view.jsx to load the data into the MovieCard/MovieView element
+        // The onBackClick attribute executes the same setSelectedMovie function above, except will pass it a null value instead of a movie
+        /*#__PURE__*/ _reactDefault.default.createElement("div", {
+            className: "main-view",
+            __source: {
+                fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
+                lineNumber: 50
+            },
+            __self: this
+        }, selectedMovie ? /*#__PURE__*/ _reactDefault.default.createElement(_movieView.MovieView, {
+            movie: selectedMovie,
+            onBackClick: (newSelectedMovie)=>{
+                this.setSelectedMovie(newSelectedMovie);
+            },
+            __source: {
+                fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
+                lineNumber: 51
+            },
+            __self: this
+        }) : movies.map((movie)=>/*#__PURE__*/ _reactDefault.default.createElement(_movieCard.MovieCard, {
+                key: movie._id,
+                movieData: movie,
+                onMovieClick: (movie1)=>{
+                    this.setSelectedMovie(movie1);
+                },
+                __source: {
+                    fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
+                    lineNumber: 52
+                },
+                __self: this
+            })
+        )));
+    }
+}
+exports.default = MainView;
+
+  helpers.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react":"3b2NM","@parcel/transformer-js/src/esmodule-helpers.js":"6BsJi","../../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7belF","../movie-card/movie-card":"XMSpr","../movie-view/movie-view":"5Y4Sk"}],"XMSpr":[function(require,module,exports) {
+var helpers = require("../../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+helpers.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+// Export a new class called MovieCard that extends the component template React.Component
+parcelHelpers.export(exports, "MovieCard", ()=>MovieCard
+);
+// Import React
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+class MovieCard extends _reactDefault.default.Component {
+    render() {
+        // Gets each movie's data from this.props and stores it in the movie object
+        const { movieData , onMovieClick  } = this.props;
+        // Return a div with the movie's title
+        return(/*#__PURE__*/ _reactDefault.default.createElement("div", {
+            className: "movie-card",
+            onClick: ()=>{
+                onMovieClick(movieData);
+            },
+            __source: {
+                fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-card\\movie-card.jsx",
+                lineNumber: 10
+            },
+            __self: this
+        }, movieData.Title));
+    }
+}
+
+  helpers.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react":"3b2NM","@parcel/transformer-js/src/esmodule-helpers.js":"6BsJi","../../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7belF"}],"5Y4Sk":[function(require,module,exports) {
+var helpers = require("../../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+helpers.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+// Export the MovieView class that extends the component template React.Component
+parcelHelpers.export(exports, "MovieView", ()=>MovieView
+);
+// Import React
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+class MovieView extends _reactDefault.default.Component {
+    render() {
+        // Get the movie and the onBackClick details from this objects props
+        const { movie , onBackClick  } = this.props;
+        // Return a single div (movie-view) that contains divs for the ImagePath, Title and Description
+        return(// The onClick attribute for the button calls the onBackClick function (defined in main-view) with the value null
+        /*#__PURE__*/ _reactDefault.default.createElement("div", {
+            className: "movie-view",
+            __source: {
+                fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
+                lineNumber: 12
+            },
+            __self: this
+        }, /*#__PURE__*/ _reactDefault.default.createElement("div", {
+            className: "movie-poster",
+            __source: {
+                fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
+                lineNumber: 13
+            },
+            __self: this
+        }, /*#__PURE__*/ _reactDefault.default.createElement("img", {
+            src: movie.ImagePath,
+            __source: {
+                fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
+                lineNumber: 14
+            },
+            __self: this
+        })), /*#__PURE__*/ _reactDefault.default.createElement("div", {
+            className: "movie-title",
+            __source: {
+                fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
+                lineNumber: 16
+            },
+            __self: this
+        }, /*#__PURE__*/ _reactDefault.default.createElement("span", {
+            className: "label",
+            __source: {
+                fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
+                lineNumber: 17
+            },
+            __self: this
+        }, "Title: "), /*#__PURE__*/ _reactDefault.default.createElement("span", {
+            className: "value",
+            __source: {
+                fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
+                lineNumber: 18
+            },
+            __self: this
+        }, movie.Title)), /*#__PURE__*/ _reactDefault.default.createElement("div", {
+            className: "movie-description",
+            __source: {
+                fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
+                lineNumber: 20
+            },
+            __self: this
+        }, /*#__PURE__*/ _reactDefault.default.createElement("span", {
+            className: "label",
+            __source: {
+                fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
+                lineNumber: 21
+            },
+            __self: this
+        }, "Description: "), /*#__PURE__*/ _reactDefault.default.createElement("span", {
+            className: "value",
+            __source: {
+                fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
+                lineNumber: 22
+            },
+            __self: this
+        }, movie.Description)), /*#__PURE__*/ _reactDefault.default.createElement("button", {
+            onClick: ()=>{
+                onBackClick(null);
+            },
+            __source: {
+                fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
+                lineNumber: 24
+            },
+            __self: this
+        }, "Back")));
+    }
+}
+
+  helpers.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react":"3b2NM","@parcel/transformer-js/src/esmodule-helpers.js":"6BsJi","../../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7belF"}]},["1j6wU","2vh84","5L08P"], "5L08P", "parcelRequire279c")
 
 //# sourceMappingURL=index.3afc6795.js.map
