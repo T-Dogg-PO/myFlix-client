@@ -3,6 +3,9 @@ import React from 'react';
 // Import prop-types, which will validate the data of props passed between different components
 import PropTypes from 'prop-types';
 
+// Import the scss file for this view
+import './movie-card.scss'
+
 // Export a new class called MovieCard that extends the component template React.Component
 export class MovieCard extends React.Component {
     render() {

@@ -5,8 +5,12 @@ import axios from 'axios';
 
 // Import the different components used in this view
 import { LoginView } from '../login-view/login-view';
+import { RegistrationView } from '../registration-view/registration-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
+
+// Import the scss file for this view
+import './main-view.scss'
 
 // Expose the MainView component for use in other parts of the app using export
 // Create the MainView component by extending the functionality of the component template React.Component
@@ -22,7 +26,8 @@ export default class MainView extends React.Component {
             // Initialize the starting value of selectedMovie, which will be used to display a movies details
             selectedMovie: null,
             // Initialize the starting value of user, which will be null until a user is logged in through the login-view
-            user: null
+            user: null,
+            registration: null
         };
     }
 
@@ -52,13 +57,30 @@ export default class MainView extends React.Component {
         });
     }
 
+    // Custom method for returning to the login view when the registration form is submitted
+    onRegistration() {
+        console.log('Registered');
+        this.toggleRegister();
+    }
+
+    // Custom method for toggling the switch (state.registration) to either display or hide the user registration form
+    toggleRegister = () => {
+        this.setState({
+            registration: !this.state.registration
+        });
+    }
+
     // render() will return the visual representation of the component. Inside the function is the JSX code which will be rendered.
     render() {
-        // Get the movies array stored in the views state
-        const { movies, selectedMovie, user } = this.state;
+        // Get the variables stored in this view's state, ready for use in the logic below
+        const { movies, selectedMovie, user, registration } = this.state;
+
+        // If the Register button is clicked and the registration state variable flagged as true, then redirect to RegistrationView
+        // Included are props for handling either the submission of the registration form, or the clicking of the back button
+        if (registration) return <RegistrationView onRegistration={() => this.onRegistration()} toggleRegister={this.toggleRegister}  />;
 
         // If there is no user logged in (i.e. the user state is null) then the login-view will be rendered. If there is a user logged in, the user details are passed as a prop to the LoginView
-        if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
+        if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} toggleRegister={this.toggleRegister} />;
 
         // If the state of the movies array is empty, display nothing while the data is fetched from the database
         if (movies.length === 0) return <div className="main-view" />;
