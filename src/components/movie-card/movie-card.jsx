@@ -19,7 +19,7 @@ export class MovieCard extends React.Component {
 // Set the propTypes property on MovieCard to an object that contains special utilities/specifications provided by the prop-types library
 MovieCard.propTypes = {
     // The props object must contain a movie object (shape({}) defines it as an object data type
-    movie: PropTypes.shape({
+    movieData: PropTypes.shape({
         // Required Title key for movie object, it must be a string
         Title: PropTypes.string.isRequired,
         // Required Description key for movie object, it must be a string

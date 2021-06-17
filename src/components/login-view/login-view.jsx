@@ -1,5 +1,7 @@
 // Import React and the useState Hook from the React library
 import React, { useState } from 'react';
+// Import prop-types, which will validate the data of props passed between different components
+import PropTypes from 'prop-types';
 
 // Import the scss file for this view
 import './login-view.scss'
@@ -39,3 +41,11 @@ export function LoginView(props) {
         </form>
     );
 }
+
+// Set the propTypes property on LoginView to an object that in turn contains a user object, which specifies the type of data for the login credentails of the user
+LoginView.propTypes = {
+    user: PropTypes.shape({
+        username: PropTypes.string.isRequired,
+        password: PropTypes.string.isRequired
+    })
+};

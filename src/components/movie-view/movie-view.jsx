@@ -1,5 +1,7 @@
 // Import React
 import React from 'react';
+// Import prop-types, which will validate the data of props passed between different components
+import PropTypes from 'prop-types';
 
 // Import the scss file for this view
 import './movie-view.scss'
@@ -29,3 +31,12 @@ export class MovieView extends React.Component {
         );
     }
 }
+
+// Set the propTypes property on the MovieView to an object that in turn contains a movie object which specifies the type of information displayed on the movie-view page
+MovieView.propTypes = {
+    movie: PropTypes.shape({
+        ImagePath: PropTypes.string,
+        Title: PropTypes.string.isRequired,
+        Description: PropTypes.string.isRequired
+    })
+};

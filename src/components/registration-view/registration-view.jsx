@@ -1,5 +1,7 @@
 // Import React and the useState Hook from the React library
 import React, { useState } from 'react';
+// Import prop-types, which will validate the data of props passed between different components
+import PropTypes from 'prop-types';
 
 // Import the scss file for this view
 import './registration-view.scss'
@@ -48,3 +50,13 @@ export function RegistrationView(props) {
         </form>
     );
 }
+
+// Set the propTypes of the RegistrationView to an object that in turn contains a registration object, which specifies the type of data for the new user
+RegistrationView.propTypes = {
+    registration: PropTypes.shape({
+        username: PropTypes.string.isRequired,
+        password: PropTypes.string.isRequired,
+        email: PropTypes.string.isRequired,
+        birthDate: PropTypes.string
+    })
+};
