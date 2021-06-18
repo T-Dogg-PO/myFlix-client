@@ -22919,6 +22919,7 @@ parcelHelpers.export(exports, "MovieView", ()=>MovieView
 // Import React
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
+// Import prop-types, which will validate the data of props passed between different components
 var _propTypes = require("prop-types");
 var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
 // Import the scss file for this view
@@ -23004,12 +23005,14 @@ class MovieView extends _reactDefault.default.Component {
         }, "Back")));
     }
 }
+// Set the propTypes property on the MovieView to an object that in turn contains a movie object which specifies the type of information displayed on the movie-view page
 MovieView.propTypes = {
     movie: _propTypesDefault.default.shape({
         ImagePath: _propTypesDefault.default.string,
         Title: _propTypesDefault.default.string.isRequired,
         Description: _propTypesDefault.default.string.isRequired
-    })
+    }),
+    onBackClick: _propTypesDefault.default.func.isRequired
 };
 
   helpers.postlude(module);
@@ -24398,6 +24401,7 @@ parcelHelpers.export(exports, "LoginView", ()=>LoginView
 // Import React and the useState Hook from the React library
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
+// Import prop-types, which will validate the data of props passed between different components
 var _propTypes = require("prop-types");
 var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
 // Import the scss file for this view
@@ -24477,11 +24481,10 @@ function LoginView(props) {
 }
 _s(LoginView, "9FY2cPL9VBDmuhjwpF2ik6flsHs=");
 _c = LoginView;
+// Set the propTypes property on LoginView
 LoginView.propTypes = {
-    user: _propTypesDefault.default.shape({
-        username: _propTypesDefault.default.string.isRequired,
-        password: _propTypesDefault.default.string.isRequired
-    })
+    toggleRegister: _propTypesDefault.default.func.isRequired,
+    onLoggedIn: _propTypesDefault.default.func.isRequired
 };
 var _c;
 $RefreshReg$(_c, "LoginView");
@@ -24506,6 +24509,7 @@ parcelHelpers.export(exports, "RegistrationView", ()=>RegistrationView
 // Import React and the useState Hook from the React library
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
+// Import prop-types, which will validate the data of props passed between different components
 var _propTypes = require("prop-types");
 var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
 // Import the scss file for this view
@@ -24620,13 +24624,9 @@ function RegistrationView(props) {
 }
 _s(RegistrationView, "52SvdCOg8syPmShbMukhlBY1TOc=");
 _c = RegistrationView;
+// Set the propTypes of the RegistrationView
 RegistrationView.propTypes = {
-    registration: _propTypesDefault.default.shape({
-        username: _propTypesDefault.default.string.isRequired,
-        password: _propTypesDefault.default.string.isRequired,
-        email: _propTypesDefault.default.string.isRequired,
-        birthDate: _propTypesDefault.default.string
-    })
+    onRegistration: _propTypesDefault.default.func.isRequired
 };
 var _c;
 $RefreshReg$(_c, "RegistrationView");

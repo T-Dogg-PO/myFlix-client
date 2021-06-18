@@ -42,10 +42,8 @@ export function LoginView(props) {
     );
 }
 
-// Set the propTypes property on LoginView to an object that in turn contains a user object, which specifies the type of data for the login credentails of the user
+// Set the propTypes property on LoginView
 LoginView.propTypes = {
-    user: PropTypes.shape({
-        username: PropTypes.string.isRequired,
-        password: PropTypes.string.isRequired
-    })
+    toggleRegister: PropTypes.func.isRequired,
+    onLoggedIn: PropTypes.func.isRequired
 };

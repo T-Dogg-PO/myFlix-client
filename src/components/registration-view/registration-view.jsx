@@ -51,12 +51,7 @@ export function RegistrationView(props) {
     );
 }
 
-// Set the propTypes of the RegistrationView to an object that in turn contains a registration object, which specifies the type of data for the new user
+// Set the propTypes of the RegistrationView
 RegistrationView.propTypes = {
-    registration: PropTypes.shape({
-        username: PropTypes.string.isRequired,
-        password: PropTypes.string.isRequired,
-        email: PropTypes.string.isRequired,
-        birthDate: PropTypes.string
-    })
+    onRegistration: PropTypes.func.isRequired
 };
