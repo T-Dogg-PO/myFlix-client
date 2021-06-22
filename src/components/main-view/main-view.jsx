@@ -3,6 +3,10 @@ import React from 'react';
 // Import axios (a library for making ajax requests from our database)
 import axios from 'axios';
 
+// Import the React Bootstrap components that will be used in this view
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 // Import the different components used in this view
 import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
@@ -77,10 +81,22 @@ export default class MainView extends React.Component {
 
         // If the Register button is clicked and the registration state variable flagged as true, then redirect to RegistrationView
         // Included are props for handling either the submission of the registration form, or the clicking of the back button
-        if (registration) return <RegistrationView onRegistration={() => this.onRegistration()} toggleRegister={this.toggleRegister}  />;
+        if (registration) return (
+            <Row className="justify-content-md-center">
+                <Col md={8}>
+                    <RegistrationView onRegistration={() => this.onRegistration()} toggleRegister={this.toggleRegister}  />
+                </Col>
+            </Row>
+        );
 
         // If there is no user logged in (i.e. the user state is null) then the login-view will be rendered. If there is a user logged in, the user details are passed as a prop to the LoginView
-        if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} toggleRegister={this.toggleRegister} />;
+        if (!user) return (
+            <Row className="justify-content-md-center">
+                <Col md={8}>
+                    <LoginView onLoggedIn={user => this.onLoggedIn(user)} toggleRegister={this.toggleRegister} />
+                </Col>
+            </Row>
+        );
 
         // If the state of the movies array is empty, display nothing while the data is fetched from the database
         if (movies.length === 0) return <div className="main-view" />;
@@ -91,10 +107,21 @@ export default class MainView extends React.Component {
             // The key attribute for each movie item will help React distinguish between similar items for efficient changing/removing
             // The movie attribute uses the movie prop from movie-card.jsx or movie-view.jsx to load the data into the MovieCard/MovieView element
             // The onBackClick attribute executes the same setSelectedMovie function above, except will pass it a null value instead of a movie
-            <div className="main-view">
-                {selectedMovie ? <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }}/>
-                : movies.map(movie => <MovieCard key={movie._id} movieData={movie} onMovieClick={(movie) => { this.setSelectedMovie(movie) }} />)}
-            </div>
+            <Row className="main-view justify-content-md-center">
+                {selectedMovie ? (
+                    <Col md={8}>
+                        <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }}/>
+                    </Col>
+                )
+                : (
+                    movies.map(movie => (
+                    <Col md={3} key={movie._id}>
+                        <MovieCard movieData={movie} onMovieClick={(movie) => { this.setSelectedMovie(movie) }} />
+                    </Col>
+                    ))
+                )
+                }
+            </Row>
         );
     }
 }

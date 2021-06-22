@@ -3,6 +3,9 @@ import React from 'react';
 // Import prop-types, which will validate the data of props passed between different components
 import PropTypes from 'prop-types';
 
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+
 // Import the scss file for this view
 import './movie-view.scss'
 
@@ -14,20 +17,20 @@ export class MovieView extends React.Component {
         // Return a single div (movie-view) that contains divs for the ImagePath, Title and Description
         return (
             // The onClick attribute for the button calls the onBackClick function (defined in main-view) with the value null
-            <div className="movie-view">
-                <div className="movie-poster">
-                    <img src={movie.ImagePath} />
-                </div>
-                <div className="movie-title">
-                    <span className="label">Title: </span>
-                    <span className="value">{movie.Title}</span>
-                </div>
-                <div className="movie-description">
-                    <span className="label">Description: </span>
-                    <span className="value">{movie.Description}</span>
-                </div>
-                <button onClick={() => { onBackClick(null); }}>Back</button> 
-            </div>
+            <Card border="dark">
+                <Card.Img varient="top" src={movie.ImagePath} />
+                <Card.Body>
+                    <Card.Title className="text-center">{movie.Title}</Card.Title>
+                    <Card.Text>{movie.Description}</Card.Text>
+                    {movie.Genre.Name && (
+                        <Card.Text>Genre: {movie.Genre.Name}</Card.Text>
+                    )}
+                    {movie.Director.Name && (
+                        <Card.Text>Directed by {movie.Director.Name}</Card.Text>
+                    )}
+                    <Button onClick={() => onBackClick(null)} varient="link">Back</Button>
+                </Card.Body>
+            </Card>
         );
     }
 }
@@ -38,6 +41,16 @@ MovieView.propTypes = {
         ImagePath: PropTypes.string,
         Title: PropTypes.string.isRequired,
         Description: PropTypes.string.isRequired
+    }),
+    Genre: PropTypes.shape({
+        Name: PropTypes.string,
+        Description: PropTypes.string
+    }),
+    Director: PropTypes.shape({
+        Name: PropTypes.string,
+        Bio: PropTypes.string,
+        Birth: PropTypes.string,
+        Death: PropTypes.string
     }),
     onBackClick: PropTypes.func.isRequired
 };

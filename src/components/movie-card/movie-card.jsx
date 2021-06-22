@@ -2,6 +2,9 @@
 import React from 'react';
 // Import prop-types, which will validate the data of props passed between different components
 import PropTypes from 'prop-types';
+// Import the React Bootstrap components which will be used in this view
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
 // Import the scss file for this view
 import './movie-card.scss'
@@ -12,7 +15,16 @@ export class MovieCard extends React.Component {
         // Gets each movie's data from this.props and stores it in the movie object
         const { movieData, onMovieClick } = this.props;
         // Return a div with the movie's title
-        return <div className="movie-card" onClick={() => { onMovieClick(movieData); }}>{movieData.Title}</div>;
+        return (
+            <Card border="dark">
+                <Card.Img varient="top" src={movieData.ImagePath} />
+                <Card.Body>
+                    <Card.Title>{movieData.Title}</Card.Title>
+                    <Card.Text>{movieData.Description}</Card.Text>
+                    <Button onClick={() => onMovieClick(movieData)} varient="link">Open</Button>
+                </Card.Body>
+            </Card>
+        );
     }
 }
 

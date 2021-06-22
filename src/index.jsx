@@ -1,8 +1,14 @@
 // Import React
 import React from 'react';
 import ReactDOM from 'react-dom';
+// Import the React Bootstrap components that will be used in this view
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
+import Image from 'react-bootstrap/Image';
 // Import Components
 import MainView from './components/main-view/main-view';
+
+import logo from 'url:./img/logo2.png';
 
 // Import statement to indicate that you need to bundle './index.scss'
 import './index.scss';
@@ -11,7 +17,16 @@ import './index.scss';
 class MyFlixApplication extends React.Component {
     render() {
         return (
-            <MainView />
+            <div className="my-flix">
+                <Navbar expand="lg" className="mb-4" sticky="top">
+                    <Navbar.Brand href="#" className="ml-4">
+                        <Image src={logo} alt="myFlix logo" className="d-inline-block align-top" />
+                    </Navbar.Brand>
+                </Navbar>
+                <Container>
+                    <MainView />
+                </Container>
+            </div>
         );
     }
 }

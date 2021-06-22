@@ -3,6 +3,10 @@ import React, { useState } from 'react';
 // Import prop-types, which will validate the data of props passed between different components
 import PropTypes from 'prop-types';
 
+// Import the React Bootstrap components which will be used in this view
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+
 // Import the scss file for this view
 import './registration-view.scss'
 
@@ -26,28 +30,57 @@ export function RegistrationView(props) {
 
     // Return the HTML code for the login form
     return (
-        <form>
-            <label>
-                Username:
-                {/* When this input field is changed, onChange will call the setUsername function defined above to change the values of the registration variables */}
-                <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
-            </label>
-            <label>
-                Password:
-                <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
-            </label>
-            <label>
-                Email:
-                <input type="email" value={email} onChange={e => setEmail(e.target.value)} />
-            </label>
-            <label>
-                Date of Birth:
-                <input type="date" value={birthDate} onChange={e => setBirthDate(e.target.value)} />
-            </label>
-            {/* Two buttons which, when clicked, will call different functions to either register or go back to the login page */}
-            <button type="submit" onClick={handleSubmit}>Register</button>
-            <button type="button" onClick={() => {props.toggleRegister(); }}>Back</button>
-        </form>
+        <Form>
+            <Form.Group controlId="registrationFormUsername">
+                <Form.Label>Username:</Form.Label>
+                <Form.Control type="text" onChange={e => setUsername(e.target.value)} />
+            </Form.Group>
+
+            <Form.Group controlId="registrationFormPassword">
+                <Form.Label>Password:</Form.Label>
+                <Form.Control type="password" onChange={e => setPassword(e.target.value)} />
+            </Form.Group>
+
+            <Form.Group controlId="registrationFormEmail">
+                <Form.Label>Email:</Form.Label>
+                <Form.Control type="email" onChange={e => setEmail(e.target.value)} />
+            </Form.Group>
+
+            <Form.Group controlId="registrationDateOfBirth">
+                <Form.Label>Date of Birth:</Form.Label>
+                <Form.Control type="date" onChange={e => setBirthDate(e.target.value)} />
+            </Form.Group>
+
+            <Button varient="primary" type="submit" onClick={handleSubmit}>
+                Register
+            </Button>
+            <Button className="float-right" varient="primary" type="button" onClick={props.toggleRegister}>
+                Back to Login
+            </Button>
+        </Form>
+
+        // <form>
+        //     <label>
+        //         Username:
+        //         {/* When this input field is changed, onChange will call the setUsername function defined above to change the values of the registration variables */}
+        //         <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
+        //     </label>
+        //     <label>
+        //         Password:
+        //         <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
+        //     </label>
+        //     <label>
+        //         Email:
+        //         <input type="email" value={email} onChange={e => setEmail(e.target.value)} />
+        //     </label>
+        //     <label>
+        //         Date of Birth:
+        //         <input type="date" value={birthDate} onChange={e => setBirthDate(e.target.value)} />
+        //     </label>
+        //     {/* Two buttons which, when clicked, will call different functions to either register or go back to the login page */}
+        //     <button type="submit" onClick={handleSubmit}>Register</button>
+        //     <button type="button" onClick={() => {props.toggleRegister(); }}>Back</button>
+        // </form>
     );
 }
 

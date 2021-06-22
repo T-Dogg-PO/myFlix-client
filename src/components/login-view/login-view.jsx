@@ -1,5 +1,10 @@
 // Import React and the useState Hook from the React library
 import React, { useState } from 'react';
+
+// Import React Bootstrap components which will be used in this view
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+
 // Import prop-types, which will validate the data of props passed between different components
 import PropTypes from 'prop-types';
 
@@ -25,20 +30,23 @@ export function LoginView(props) {
 
     // Return the HTML code for the login form
     return (
-        <form>
-            <label>
-                Username:
-                {/* When this input field is changed, onChange will call the setUsername function defined above to change the login variables to this current value */}
-                <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
-            </label>
-            <label>
-                Password:
-                <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
-            </label>
-            {/* Two buttons which, when clicked, will call different functions to either log in or go to the registration page */}
-            <button type="submit" onClick={handleSubmit}>Submit</button>
-            <button type="submit" onClick={props.toggleRegister}>New here? Click here to Register</button>
-        </form>
+        <Form>
+            <Form.Group controlId="formUsername">
+                <Form.Label>Username:</Form.Label>
+                <Form.Control type="text" onChange={e => setUsername(e.target.value)} />
+            </Form.Group>
+
+            <Form.Group controlId="formPassword">
+                <Form.Label>Password:</Form.Label>
+                <Form.Control type="password" onChange={e => setPassword(e.target.value)} />
+            </Form.Group>
+            <Button varient="primary" type="submit" onClick={handleSubmit}>
+                Submit
+            </Button>
+            <Button className="float-right" varient="primary" type="button" onClick={props.toggleRegister}>
+                No account? Click here to Register!
+            </Button>
+        </Form>
     );
 }
 
