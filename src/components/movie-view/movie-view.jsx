@@ -18,15 +18,15 @@ export class MovieView extends React.Component {
         return (
             // The onClick attribute for the button calls the onBackClick function (defined in main-view) with the value null
             <Card border="dark">
-                <Card.Img varient="top" src={movie.ImagePath} />
+                <Card.Img varient="top" src={movie.ImagePath} className="big_image" />
                 <Card.Body>
                     <Card.Title className="text-center">{movie.Title}</Card.Title>
                     <Card.Text>{movie.Description}</Card.Text>
                     {movie.Genre.Name && (
-                        <Card.Text>Genre: {movie.Genre.Name}</Card.Text>
+                        <Card.Text className="genre_heading"><span className="genre_title">Genre: </span>{movie.Genre.Name}</Card.Text>
                     )}
                     {movie.Director.Name && (
-                        <Card.Text>Directed by {movie.Director.Name}</Card.Text>
+                        <Card.Text className="director_heading"><span className="director_title">Directed by </span>{movie.Director.Name}</Card.Text>
                     )}
                     <Button onClick={() => onBackClick(null)} varient="link">Back</Button>
                 </Card.Body>

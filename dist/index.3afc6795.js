@@ -881,8 +881,6 @@ var _imageDefault = parcelHelpers.interopDefault(_image);
 // Import Components
 var _mainView = require("./components/main-view/main-view");
 var _mainViewDefault = parcelHelpers.interopDefault(_mainView);
-var _logo2Png = require("url:./img/logo2.png");
-var _logo2PngDefault = parcelHelpers.interopDefault(_logo2Png);
 // Import statement to indicate that you need to bundle './index.scss'
 var _indexScss = require("./index.scss");
 // Main component (will eventually use all the others)
@@ -892,7 +890,7 @@ class MyFlixApplication extends _reactDefault.default.Component {
             className: "my-flix",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\index.jsx",
-                lineNumber: 20
+                lineNumber: 18
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_navbarDefault.default, {
@@ -901,7 +899,7 @@ class MyFlixApplication extends _reactDefault.default.Component {
             sticky: "top",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\index.jsx",
-                lineNumber: 21
+                lineNumber: 19
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_navbarDefault.default.Brand, {
@@ -909,28 +907,28 @@ class MyFlixApplication extends _reactDefault.default.Component {
             className: "ml-4",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\index.jsx",
-                lineNumber: 22
+                lineNumber: 20
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_imageDefault.default, {
-            src: _logo2PngDefault.default,
+            src: "https://i.imgur.com/ykYgWv5.png",
             alt: "myFlix logo",
             className: "d-inline-block align-top",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\index.jsx",
-                lineNumber: 23
+                lineNumber: 21
             },
             __self: this
         }))), /*#__PURE__*/ _reactDefault.default.createElement(_containerDefault.default, {
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\index.jsx",
-                lineNumber: 26
+                lineNumber: 24
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_mainViewDefault.default, {
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\index.jsx",
-                lineNumber: 27
+                lineNumber: 25
             },
             __self: this
         }))));
@@ -946,7 +944,7 @@ _reactDomDefault.default.render(/*#__PURE__*/ _reactDefault.default.createElemen
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react":"3b2NM","react-dom":"2sg1U","./index.scss":"22H9z","@parcel/transformer-js/src/esmodule-helpers.js":"6BsJi","../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7belF","./components/main-view/main-view":"3MRtJ","react-bootstrap/Container":"3Mt3t","react-bootstrap/Navbar":"3qLFd","react-bootstrap/Image":"5qrP5","url:./img/logo2.png":"6jICg"}],"3b2NM":[function(require,module,exports) {
+},{"react":"3b2NM","react-dom":"2sg1U","./index.scss":"22H9z","@parcel/transformer-js/src/esmodule-helpers.js":"6BsJi","../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7belF","./components/main-view/main-view":"3MRtJ","react-bootstrap/Container":"3Mt3t","react-bootstrap/Navbar":"3qLFd","react-bootstrap/Image":"5qrP5"}],"3b2NM":[function(require,module,exports) {
 'use strict';
 module.exports = require('./cjs/react.development.js');
 
@@ -22220,6 +22218,7 @@ class MainView extends _reactDefault.default.Component {
         })) : movies.map((movie)=>/*#__PURE__*/ _reactDefault.default.createElement(_colDefault.default, {
                 md: 3,
                 key: movie._id,
+                className: "my-2",
                 __source: {
                     fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
                     lineNumber: 118
@@ -22292,6 +22291,7 @@ class MovieCard extends _reactDefault.default.Component {
             },
             __self: this
         }), /*#__PURE__*/ _reactDefault.default.createElement(_cardDefault.default.Body, {
+            className: "d-flex flex-column",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-card\\movie-card.jsx",
                 lineNumber: 21
@@ -22313,12 +22313,13 @@ class MovieCard extends _reactDefault.default.Component {
             onClick: ()=>onMovieClick(movieData)
             ,
             varient: "link",
+            className: "mt-auto",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-card\\movie-card.jsx",
                 lineNumber: 24
             },
             __self: this
-        }, "Open"))));
+        }, "View Movie Details"))));
     }
 }
 // Set the propTypes property on MovieCard to an object that contains special utilities/specifications provided by the prop-types library
@@ -23593,6 +23594,7 @@ class MovieView extends _reactDefault.default.Component {
         }, /*#__PURE__*/ _reactDefault.default.createElement(_cardDefault.default.Img, {
             varient: "top",
             src: movie.ImagePath,
+            className: "big_image",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
                 lineNumber: 21
@@ -23618,18 +23620,34 @@ class MovieView extends _reactDefault.default.Component {
             },
             __self: this
         }, movie.Description), movie.Genre.Name && /*#__PURE__*/ _reactDefault.default.createElement(_cardDefault.default.Text, {
+            className: "genre_heading",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
                 lineNumber: 26
             },
             __self: this
-        }, "Genre: ", movie.Genre.Name), movie.Director.Name && /*#__PURE__*/ _reactDefault.default.createElement(_cardDefault.default.Text, {
+        }, /*#__PURE__*/ _reactDefault.default.createElement("span", {
+            className: "genre_title",
+            __source: {
+                fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
+                lineNumber: 26
+            },
+            __self: this
+        }, "Genre: "), movie.Genre.Name), movie.Director.Name && /*#__PURE__*/ _reactDefault.default.createElement(_cardDefault.default.Text, {
+            className: "director_heading",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
                 lineNumber: 29
             },
             __self: this
-        }, "Directed by ", movie.Director.Name), /*#__PURE__*/ _reactDefault.default.createElement(_buttonDefault.default, {
+        }, /*#__PURE__*/ _reactDefault.default.createElement("span", {
+            className: "director_title",
+            __source: {
+                fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
+                lineNumber: 29
+            },
+            __self: this
+        }, "Directed by "), movie.Director.Name), /*#__PURE__*/ _reactDefault.default.createElement(_buttonDefault.default, {
             onClick: ()=>onBackClick(null)
             ,
             varient: "link",
@@ -28420,37 +28438,6 @@ Image1.defaultProps = defaultProps;
 var _default = Image1;
 exports.default = _default;
 
-},{"@babel/runtime/helpers/interopRequireDefault":"4ttVj","@babel/runtime/helpers/extends":"3krLJ","@babel/runtime/helpers/objectWithoutPropertiesLoose":"3Yx9V","classnames":"5aJRc","react":"3b2NM","prop-types":"4dfy5","./ThemeProvider":"4rz1S"}],"6jICg":[function(require,module,exports) {
-module.exports = require('./bundle-url').getBundleURL() + "logo2.d5793411.png";
-
-},{"./bundle-url":"1AFol"}],"1AFol":[function(require,module,exports) {
-"use strict";
-/* globals document:readonly */ var bundleURL = null;
-function getBundleURLCached() {
-    if (!bundleURL) bundleURL = getBundleURL();
-    return bundleURL;
-}
-function getBundleURL() {
-    try {
-        throw new Error();
-    } catch (err) {
-        var matches = ('' + err.stack).match(/(https?|file|ftp):\/\/[^)\n]+/g);
-        if (matches) return getBaseURL(matches[0]);
-    }
-    return '/';
-}
-function getBaseURL(url) {
-    return ('' + url).replace(/^((?:https?|file|ftp):\/\/.+)\/[^/]+$/, '$1') + '/';
-} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
-function getOrigin(url) {
-    let matches = ('' + url).match(/(https?|file|ftp):\/\/[^/]+/);
-    if (!matches) throw new Error('Origin not found');
-    return matches[0];
-}
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-exports.getOrigin = getOrigin;
-
-},{}]},["1j6wU","2vh84","5L08P"], "5L08P", "parcelRequire279c")
+},{"@babel/runtime/helpers/interopRequireDefault":"4ttVj","@babel/runtime/helpers/extends":"3krLJ","@babel/runtime/helpers/objectWithoutPropertiesLoose":"3Yx9V","classnames":"5aJRc","react":"3b2NM","prop-types":"4dfy5","./ThemeProvider":"4rz1S"}]},["1j6wU","2vh84","5L08P"], "5L08P", "parcelRequire279c")
 
 //# sourceMappingURL=index.3afc6795.js.map

@@ -2,8 +2,30 @@
   background-color: #EEFDFF;
   font-family: "Krub", sans-serif;
 }
+.card {
+  height: 100%;
+}
 
+.card-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+.big_image {
+  object-fit: scale-down;
+  height: 500px;
+}
 
+.genre_heading, .director_heading {
+  border-top: 1px solid black;
+  padding-top: 10px;
+}
+
+.genre_title, .director_title {
+  font-weight: bold;
+}
 
 
 

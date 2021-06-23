@@ -8,8 +8,6 @@ import Image from 'react-bootstrap/Image';
 // Import Components
 import MainView from './components/main-view/main-view';
 
-import logo from 'url:./img/logo2.png';
-
 // Import statement to indicate that you need to bundle './index.scss'
 import './index.scss';
 
@@ -20,7 +18,7 @@ class MyFlixApplication extends React.Component {
             <div className="my-flix">
                 <Navbar expand="lg" className="mb-4" sticky="top">
                     <Navbar.Brand href="#" className="ml-4">
-                        <Image src={logo} alt="myFlix logo" className="d-inline-block align-top" />
+                        <Image src="https://i.imgur.com/ykYgWv5.png" alt="myFlix logo" className="d-inline-block align-top" />
                     </Navbar.Brand>
                 </Navbar>
                 <Container>

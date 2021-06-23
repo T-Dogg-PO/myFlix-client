@@ -1,0 +1,12 @@
+.card {
+    height: 100%;
+}
+
+// Basis of code for truncating the card text taken from here - https://stackoverflow.com/questions/5269713/css-ellipsis-on-second-line
+.card-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+}

@@ -115,7 +115,7 @@ export default class MainView extends React.Component {
                 )
                 : (
                     movies.map(movie => (
-                    <Col md={3} key={movie._id}>
+                    <Col md={3} key={movie._id} className="my-2">
                         <MovieCard movieData={movie} onMovieClick={(movie) => { this.setSelectedMovie(movie) }} />
                     </Col>
                     ))
