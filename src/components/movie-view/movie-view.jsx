@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 // Import the scss file for this view
 import './movie-view.scss'
@@ -18,17 +20,23 @@ export class MovieView extends React.Component {
         return (
             // The onClick attribute for the button calls the onBackClick function (defined in main-view) with the value null
             <Card border="dark">
-                <Card.Img varient="top" src={movie.ImagePath} className="big_image" />
                 <Card.Body>
-                    <Card.Title className="text-center">{movie.Title}</Card.Title>
-                    <Card.Text>{movie.Description}</Card.Text>
-                    {movie.Genre.Name && (
-                        <Card.Text className="genre_heading"><span className="genre_title">Genre: </span>{movie.Genre.Name}</Card.Text>
-                    )}
-                    {movie.Director.Name && (
-                        <Card.Text className="director_heading"><span className="director_title">Directed by </span>{movie.Director.Name}</Card.Text>
-                    )}
-                    <Button onClick={() => onBackClick(null)} varient="link">Back</Button>
+                    <Row>
+                        <Col xs={12} md={6}>
+                            <Card.Img varient="top" src={movie.ImagePath} className="big_image" />
+                        </Col>
+                        <Col xs={12} md={6}>
+                        <Card.Title className="text-center">{movie.Title}</Card.Title>
+                        <Card.Text>{movie.Description}</Card.Text>
+                        {movie.Genre.Name && (
+                            <Card.Text className="genre_heading"><span className="genre_title">Genre: </span>{movie.Genre.Name}</Card.Text>
+                        )}
+                        {movie.Director.Name && (
+                            <Card.Text className="director_heading"><span className="director_title">Directed by </span>{movie.Director.Name}</Card.Text>
+                        )}
+                        <Button onClick={() => onBackClick(null)} varient="link">Back</Button>
+                        </Col>
+                    </Row>
                 </Card.Body>
             </Card>
         );

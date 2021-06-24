@@ -16,11 +16,11 @@ export class MovieCard extends React.Component {
         const { movieData, onMovieClick } = this.props;
         // Return a div with the movie's title
         return (
-            <Card border="dark">
+            <Card className="card_styling" border="dark">
                 <Card.Img varient="top" src={movieData.ImagePath} />
                 <Card.Body className="d-flex flex-column">
                     <Card.Title>{movieData.Title}</Card.Title>
-                    <Card.Text>{movieData.Description}</Card.Text>
+                    <Card.Text className="truncated_text">{movieData.Description}</Card.Text>
                     <Button onClick={() => onMovieClick(movieData)} varient="link" className="mt-auto">View Movie Details</Button>
                 </Card.Body>
             </Card>

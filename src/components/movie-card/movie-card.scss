@@ -1,9 +1,9 @@
-.card {
+.card_styling {
     height: 100%;
 }
 
 // Basis of code for truncating the card text taken from here - https://stackoverflow.com/questions/5269713/css-ellipsis-on-second-line
-.card-text {
+.truncated_text {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
