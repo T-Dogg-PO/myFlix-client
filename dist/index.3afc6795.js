@@ -890,7 +890,7 @@ class MyFlixApplication extends _reactDefault.default.Component {
             className: "my-flix",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\index.jsx",
-                lineNumber: 18
+                lineNumber: 19
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_navbarDefault.default, {
@@ -899,7 +899,7 @@ class MyFlixApplication extends _reactDefault.default.Component {
             sticky: "top",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\index.jsx",
-                lineNumber: 19
+                lineNumber: 20
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_navbarDefault.default.Brand, {
@@ -907,7 +907,7 @@ class MyFlixApplication extends _reactDefault.default.Component {
             className: "ml-4",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\index.jsx",
-                lineNumber: 20
+                lineNumber: 21
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_imageDefault.default, {
@@ -916,19 +916,19 @@ class MyFlixApplication extends _reactDefault.default.Component {
             className: "d-inline-block align-top",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\index.jsx",
-                lineNumber: 21
+                lineNumber: 22
             },
             __self: this
         }))), /*#__PURE__*/ _reactDefault.default.createElement(_containerDefault.default, {
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\index.jsx",
-                lineNumber: 24
+                lineNumber: 25
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_mainViewDefault.default, {
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\index.jsx",
-                lineNumber: 25
+                lineNumber: 26
             },
             __self: this
         }))));
@@ -22065,6 +22065,8 @@ var _row = require("react-bootstrap/Row");
 var _rowDefault = parcelHelpers.interopDefault(_row);
 var _col = require("react-bootstrap/Col");
 var _colDefault = parcelHelpers.interopDefault(_col);
+var _button = require("react-bootstrap/Button");
+var _buttonDefault = parcelHelpers.interopDefault(_button);
 // Import the different components used in this view
 var _loginView = require("../login-view/login-view");
 var _registrationView = require("../registration-view/registration-view");
@@ -22089,15 +22091,15 @@ class MainView extends _reactDefault.default.Component {
         };
     }
     // Code that will be executed after the component is rendered to the DOM / has been mounted. Place for async tasks such as ajax requests or event listeners
-    // In this case, we are making a call to the GET /movies endpoint to get a list of movies, then adding the list of movies to the state.movies array
+    // In this case, getting the accessToken from localStorage to persist login data between page refreshes
     componentDidMount() {
-        _axiosDefault.default.get('https://t-dogg-movies-api.herokuapp.com/movies').then((response)=>{
+        let accessToken = localStorage.getItem('token');
+        if (accessToken !== null) {
             this.setState({
-                movies: response.data
+                user: localStorage.getItem('user')
             });
-        }).catch((error)=>{
-            console.log(error);
-        });
+            this.getMovies(accessToken);
+        }
     }
     // Custom method for changing the MainView state (for selectedMovie) which will mean the page will render either a single movie or a list of movies
     setSelectedMovie(newSelectedMovie) {
@@ -22105,10 +22107,41 @@ class MainView extends _reactDefault.default.Component {
             selectedMovie: newSelectedMovie
         });
     }
-    // Custom method for updating the MainView state for the user property once a user is logged in
-    onLoggedIn(user) {
+    // Custom method for updating the MainView state for the user property once a user is logged in, and storing the JWT token in localStorage
+    onLoggedIn(authData) {
+        console.log(authData);
+        // Update the MainView state with the username passed in from LoginView
         this.setState({
-            user
+            user: authData.dataReturned.Username
+        });
+        // Update localStorage with the username and JWT token so we can store this users session
+        localStorage.setItem('token', authData.token);
+        localStorage.setItem('user', authData.dataReturned.Username);
+        // Call the getMovies function to get the list of movies from the server's API
+        this.getMovies(authData.token);
+    }
+    // Custom method for querying the database to retrieve a list of movies
+    getMovies(token) {
+        // Use axios to send a request to the movies endpoint of our API
+        _axiosDefault.default.get('https://t-dogg-movies-api.herokuapp.com/movies', {
+            // By passing Bearer authoriztion in the header of the HTTP request, we can make authenticated requests to the API
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then((response)=>{
+            this.setState({
+                movies: response.data
+            });
+        }).catch(function(error) {
+            console.log(error);
+        });
+    }
+    // Custom method for logging a user out by removing the username and JWT from localStorage, then setting the user state of MainView to null
+    onLoggedOut() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        this.setState({
+            user: null
         });
     }
     // Custom method for returning to the login view when the registration form is submitted
@@ -22132,14 +22165,14 @@ class MainView extends _reactDefault.default.Component {
             className: "justify-content-md-center",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
-                lineNumber: 85
+                lineNumber: 119
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_colDefault.default, {
             md: 8,
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
-                lineNumber: 86
+                lineNumber: 120
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_registrationView.RegistrationView, {
@@ -22148,7 +22181,7 @@ class MainView extends _reactDefault.default.Component {
             toggleRegister: this.toggleRegister,
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
-                lineNumber: 87
+                lineNumber: 121
             },
             __self: this
         }))));
@@ -22157,14 +22190,14 @@ class MainView extends _reactDefault.default.Component {
             className: "justify-content-md-center",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
-                lineNumber: 94
+                lineNumber: 128
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_colDefault.default, {
             md: 8,
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
-                lineNumber: 95
+                lineNumber: 129
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_loginView.LoginView, {
@@ -22173,7 +22206,7 @@ class MainView extends _reactDefault.default.Component {
             toggleRegister: this.toggleRegister,
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
-                lineNumber: 96
+                lineNumber: 130
             },
             __self: this
         }))));
@@ -22182,7 +22215,7 @@ class MainView extends _reactDefault.default.Component {
             className: "main-view",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
-                lineNumber: 102
+                lineNumber: 136
             },
             __self: this
         }));
@@ -22195,14 +22228,14 @@ class MainView extends _reactDefault.default.Component {
             className: "main-view justify-content-md-center",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
-                lineNumber: 110
+                lineNumber: 144
             },
             __self: this
         }, selectedMovie ? /*#__PURE__*/ _reactDefault.default.createElement(_colDefault.default, {
             md: 8,
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
-                lineNumber: 112
+                lineNumber: 146
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_movieView.MovieView, {
@@ -22212,7 +22245,7 @@ class MainView extends _reactDefault.default.Component {
             },
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
-                lineNumber: 113
+                lineNumber: 147
             },
             __self: this
         })) : movies.map((movie)=>/*#__PURE__*/ _reactDefault.default.createElement(_colDefault.default, {
@@ -22221,7 +22254,7 @@ class MainView extends _reactDefault.default.Component {
                 className: "my-2",
                 __source: {
                     fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
-                    lineNumber: 118
+                    lineNumber: 152
                 },
                 __self: this
             }, /*#__PURE__*/ _reactDefault.default.createElement(_movieCard.MovieCard, {
@@ -22231,11 +22264,20 @@ class MainView extends _reactDefault.default.Component {
                 },
                 __source: {
                     fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
-                    lineNumber: 119
+                    lineNumber: 153
                 },
                 __self: this
             }))
-        )));
+        ), /*#__PURE__*/ _reactDefault.default.createElement(_buttonDefault.default, {
+            onClick: ()=>this.onLoggedOut()
+            ,
+            varient: "link",
+            __source: {
+                fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
+                lineNumber: 159
+            },
+            __self: this
+        }, "Logout")));
     }
 }
 exports.default = MainView;
@@ -22245,7 +22287,7 @@ exports.default = MainView;
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react":"3b2NM","@parcel/transformer-js/src/esmodule-helpers.js":"6BsJi","../../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7belF","../movie-card/movie-card":"XMSpr","../movie-view/movie-view":"5Y4Sk","axios":"7rA65","../login-view/login-view":"49P1E","../registration-view/registration-view":"48RdH","./main-view.scss":"4mVGV","react-bootstrap/Row":"3fzwD","react-bootstrap/Col":"2D0r8"}],"XMSpr":[function(require,module,exports) {
+},{"react":"3b2NM","@parcel/transformer-js/src/esmodule-helpers.js":"6BsJi","../../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7belF","../movie-card/movie-card":"XMSpr","../movie-view/movie-view":"5Y4Sk","axios":"7rA65","../login-view/login-view":"49P1E","../registration-view/registration-view":"48RdH","./main-view.scss":"4mVGV","react-bootstrap/Row":"3fzwD","react-bootstrap/Col":"2D0r8","react-bootstrap/Button":"1ru0l"}],"XMSpr":[function(require,module,exports) {
 var helpers = require("../../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -25207,6 +25249,9 @@ parcelHelpers.export(exports, "LoginView", ()=>LoginView
 // Import React and the useState Hook from the React library
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
+// Import Axios which is a library that will be used to send requests to our database
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
 // Import React Bootstrap components which will be used in this view
 var _form = require("react-bootstrap/Form");
 var _formDefault = parcelHelpers.interopDefault(_form);
@@ -25224,73 +25269,116 @@ function LoginView(props) {
     // This array is deconstructed. The current value is assigned to username/password, and a method to update the variables to setUsername/setPassword.
     const [username, setUsername] = _react.useState('');
     const [password, setPassword] = _react.useState('');
+    // Extra state for this view to be used in the Form Validation. Starting value is false
+    const [validated, setValidated] = _react.useState(false);
     // Function for submitting the login credentails provided and sending them to the server for authentication
     const handleSubmit = (e)=>{
-        // e.preventDefault() will stop the page from refreshing once the submit button is clicked (which would be the default behaviour)
-        e.preventDefault();
-        console.log(username, password);
-        // Send a request to the server for authentication, then call props.onLoggedIn(username)
-        // NOTE that props.onLoggedIn(username) will allow any credentials to log in successfully, and is only for learning/testing purposes. This logic will be updated to a robust login procedure at a later date
-        props.onLoggedIn(username);
+        // Get the form element and store it in the const form (currentTarget of the event is the submit button, and the form element is the parentNode of that)
+        const form = e.currentTarget.parentNode;
+        // Use checkValidity() to check for any validation errors in the form (based on what is described in the form elements attributes)
+        if (form.checkValidity() === false) {
+            // If checkValidity() returns false, stop the submission. stopPropagation() is used to stop propagation of the same event being called
+            e.preventDefault();
+            e.stopPropagation();
+            // Even if the form is not valid, the validated state variable needs to be set to true. This will toggle any validation styles on the forms elements (as per React Bootstraps documentation)
+            setValidated(true);
+        } else {
+            // e.preventDefault() will stop the page from refreshing once the submit button is clicked (which would be the default behaviour)
+            e.preventDefault();
+            // Change the validated state variable to true to mark the form as validated
+            setValidated(true);
+            // Send a request to the server for authentication (the logic for authenticating the user is done through the logic of the login endpoint)
+            _axiosDefault.default.post('https://t-dogg-movies-api.herokuapp.com/login', {
+                Username: username,
+                Password: password
+            }).then((response)=>{
+                // Store the response details (including the JWT token) in data, and pass data to onLoggedIn
+                const data = response.data;
+                props.onLoggedIn(data);
+            // Otherwise log an error message to the console stating that no such user exists
+            }).catch((e1)=>{
+                console.log('Invalid credentials');
+            });
+        }
     };
     // Return the HTML code for the login form
-    return(/*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default, {
+    return(// The noValidate attribute will prevent default HTML5 validation, meaning we can get nice looking Bootstrap validation instead
+    // The validated attribute is taken from the validated state variable. Marks whether the form has been validated or not, and will toggle validation on the form elements
+    /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default, {
+        noValidate: true,
+        validated: validated,
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\login-view\\login-view.jsx",
-            lineNumber: 33
+            lineNumber: 61
         },
         __self: this
     }, /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Group, {
         controlId: "formUsername",
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\login-view\\login-view.jsx",
-            lineNumber: 34
+            lineNumber: 62
         },
         __self: this
     }, /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Label, {
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\login-view\\login-view.jsx",
-            lineNumber: 35
+            lineNumber: 63
         },
         __self: this
     }, "Username:"), /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Control, {
         type: "text",
         onChange: (e)=>setUsername(e.target.value)
         ,
+        required: true,
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\login-view\\login-view.jsx",
-            lineNumber: 36
+            lineNumber: 64
         },
         __self: this
-    })), /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Group, {
+    }), /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Control.Feedback, {
+        type: "invalid",
+        __source: {
+            fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\login-view\\login-view.jsx",
+            lineNumber: 65
+        },
+        __self: this
+    }, "Please enter a username")), /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Group, {
         controlId: "formPassword",
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\login-view\\login-view.jsx",
-            lineNumber: 39
+            lineNumber: 68
         },
         __self: this
     }, /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Label, {
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\login-view\\login-view.jsx",
-            lineNumber: 40
+            lineNumber: 69
         },
         __self: this
     }, "Password:"), /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Control, {
         type: "password",
         onChange: (e)=>setPassword(e.target.value)
         ,
+        required: true,
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\login-view\\login-view.jsx",
-            lineNumber: 41
+            lineNumber: 70
         },
         __self: this
-    })), /*#__PURE__*/ _reactDefault.default.createElement(_buttonDefault.default, {
+    }), /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Control.Feedback, {
+        type: "invalid",
+        __source: {
+            fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\login-view\\login-view.jsx",
+            lineNumber: 71
+        },
+        __self: this
+    }, "Please enter a password")), /*#__PURE__*/ _reactDefault.default.createElement(_buttonDefault.default, {
         varient: "primary",
         type: "submit",
         onClick: handleSubmit,
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\login-view\\login-view.jsx",
-            lineNumber: 43
+            lineNumber: 73
         },
         __self: this
     }, "Submit"), /*#__PURE__*/ _reactDefault.default.createElement(_buttonDefault.default, {
@@ -25300,12 +25388,12 @@ function LoginView(props) {
         onClick: props.toggleRegister,
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\login-view\\login-view.jsx",
-            lineNumber: 46
+            lineNumber: 76
         },
         __self: this
     }, "No account? Click here to Register!")));
 }
-_s(LoginView, "9FY2cPL9VBDmuhjwpF2ik6flsHs=");
+_s(LoginView, "upUt82BobWdD0n34RWRIcb9Uzjo=");
 _c = LoginView;
 // Set the propTypes property on LoginView
 LoginView.propTypes = {
@@ -25320,7 +25408,7 @@ $RefreshReg$(_c, "LoginView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react":"3b2NM","@parcel/transformer-js/src/esmodule-helpers.js":"6BsJi","../../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7belF","./login-view.scss":"hhniW","prop-types":"4dfy5","react-bootstrap/Form":"6A5ko","react-bootstrap/Button":"1ru0l"}],"hhniW":[function() {},{}],"6A5ko":[function(require,module,exports) {
+},{"react":"3b2NM","@parcel/transformer-js/src/esmodule-helpers.js":"6BsJi","../../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7belF","./login-view.scss":"hhniW","prop-types":"4dfy5","react-bootstrap/Form":"6A5ko","react-bootstrap/Button":"1ru0l","axios":"7rA65"}],"hhniW":[function() {},{}],"6A5ko":[function(require,module,exports) {
 "use strict";
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 exports.__esModule = true;
@@ -26382,99 +26470,143 @@ function RegistrationView(props) {
     const [password, setPassword] = _react.useState('');
     const [email, setEmail] = _react.useState('');
     const [birthDate, setBirthDate] = _react.useState('');
+    // Extra state for this view to be used in the Form Validation. Starting value is false
+    const [validated, setValidated] = _react.useState(false);
+    // https://stackoverflow.com/questions/63494157/react-bootstrap-forms-form-control-feedback-form-control-feedback-is-not-di
     // Function for submitting the registration credentials
     const handleSubmit = (e)=>{
-        // Prevent the default behaviour of submitting the form (which would refresh the page)
-        e.preventDefault();
-        // Log the details to the console (for now)
-        console.log(username, password, email, birthDate);
-        // props.onRegistration will call a function in main-view.jsx which for now will just reload the login page
-        props.onRegistration();
+        // Get the form element and store it in the const form (currentTarget of the event is the submit button, and the form element is the parentNode of that)
+        const form = e.currentTarget.parentNode;
+        // Use checkValidity() to check for any validation errors in the form (based on what is described in the form elements attributes)
+        if (form.checkValidity() === false) {
+            // If checkValidity() returns false, stop the submission. stopPropagation() is used to stop propagation of the same event being called
+            e.preventDefault();
+            e.stopPropagation();
+            // Even if the form is not valid, the validated state variable needs to be set to true. This will toggle any validation styles on the forms elements (as per React Bootstraps documentation)
+            setValidated(true);
+        } else {
+            // Prevent the default behaviour of submitting the form (which would refresh the page)
+            e.preventDefault();
+            // Change the validated state variable to true to mark the form as validated
+            setValidated(true);
+            // Log the details to the console (for now)
+            console.log(username, password, email, birthDate);
+            // props.onRegistration will call a function in main-view.jsx which for now will just reload the login page
+            props.onRegistration();
+        }
     };
     // Return the HTML code for the login form
-    return(/*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default, {
+    return(// The noValidate attribute will prevent default HTML5 validation, meaning we can get nice looking Bootstrap validation instead
+    // The validated attribute is taken from the validated state variable. Marks whether the form has been validated or not, and will toggle validation on the form elements
+    /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default, {
+        noValidate: true,
+        validated: validated,
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\registration-view\\registration-view.jsx",
-            lineNumber: 33
+            lineNumber: 50
         },
         __self: this
     }, /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Group, {
         controlId: "registrationFormUsername",
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\registration-view\\registration-view.jsx",
-            lineNumber: 34
+            lineNumber: 51
         },
         __self: this
     }, /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Label, {
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\registration-view\\registration-view.jsx",
-            lineNumber: 35
+            lineNumber: 52
         },
         __self: this
     }, "Username:"), /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Control, {
         type: "text",
         onChange: (e)=>setUsername(e.target.value)
         ,
+        required: true,
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\registration-view\\registration-view.jsx",
-            lineNumber: 36
+            lineNumber: 53
         },
         __self: this
-    })), /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Group, {
+    }), /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Control.Feedback, {
+        type: "invalid",
+        __source: {
+            fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\registration-view\\registration-view.jsx",
+            lineNumber: 54
+        },
+        __self: this
+    }, "Please enter a username")), /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Group, {
         controlId: "registrationFormPassword",
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\registration-view\\registration-view.jsx",
-            lineNumber: 39
+            lineNumber: 57
         },
         __self: this
     }, /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Label, {
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\registration-view\\registration-view.jsx",
-            lineNumber: 40
+            lineNumber: 58
         },
         __self: this
     }, "Password:"), /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Control, {
         type: "password",
         onChange: (e)=>setPassword(e.target.value)
         ,
+        required: true,
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\registration-view\\registration-view.jsx",
-            lineNumber: 41
+            lineNumber: 59
         },
         __self: this
-    })), /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Group, {
+    }), /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Control.Feedback, {
+        type: "invalid",
+        __source: {
+            fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\registration-view\\registration-view.jsx",
+            lineNumber: 60
+        },
+        __self: this
+    }, "Please enter a password")), /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Group, {
         controlId: "registrationFormEmail",
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\registration-view\\registration-view.jsx",
-            lineNumber: 44
+            lineNumber: 63
         },
         __self: this
     }, /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Label, {
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\registration-view\\registration-view.jsx",
-            lineNumber: 45
+            lineNumber: 64
         },
         __self: this
     }, "Email:"), /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Control, {
         type: "email",
         onChange: (e)=>setEmail(e.target.value)
         ,
+        required: true,
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\registration-view\\registration-view.jsx",
-            lineNumber: 46
+            lineNumber: 65
         },
         __self: this
-    })), /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Group, {
+    }), /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Control.Feedback, {
+        type: "invalid",
+        __source: {
+            fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\registration-view\\registration-view.jsx",
+            lineNumber: 66
+        },
+        __self: this
+    }, "Please enter a valid email address")), /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Group, {
         controlId: "registrationDateOfBirth",
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\registration-view\\registration-view.jsx",
-            lineNumber: 49
+            lineNumber: 69
         },
         __self: this
     }, /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Label, {
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\registration-view\\registration-view.jsx",
-            lineNumber: 50
+            lineNumber: 70
         },
         __self: this
     }, "Date of Birth:"), /*#__PURE__*/ _reactDefault.default.createElement(_formDefault.default.Control, {
@@ -26483,7 +26615,7 @@ function RegistrationView(props) {
         ,
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\registration-view\\registration-view.jsx",
-            lineNumber: 51
+            lineNumber: 71
         },
         __self: this
     })), /*#__PURE__*/ _reactDefault.default.createElement(_buttonDefault.default, {
@@ -26492,7 +26624,7 @@ function RegistrationView(props) {
         onClick: handleSubmit,
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\registration-view\\registration-view.jsx",
-            lineNumber: 54
+            lineNumber: 74
         },
         __self: this
     }, "Register"), /*#__PURE__*/ _reactDefault.default.createElement(_buttonDefault.default, {
@@ -26502,12 +26634,12 @@ function RegistrationView(props) {
         onClick: props.toggleRegister,
         __source: {
             fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\registration-view\\registration-view.jsx",
-            lineNumber: 57
+            lineNumber: 77
         },
         __self: this
     }, "Back to Login")));
 }
-_s(RegistrationView, "52SvdCOg8syPmShbMukhlBY1TOc=");
+_s(RegistrationView, "6Cg//gMNMLPXTdzWA2gHiEzB9s0=");
 _c = RegistrationView;
 // Set the propTypes of the RegistrationView
 RegistrationView.propTypes = {

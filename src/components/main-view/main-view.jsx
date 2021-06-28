@@ -6,6 +6,7 @@ import axios from 'axios';
 // Import the React Bootstrap components that will be used in this view
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 
 // Import the different components used in this view
 import { LoginView } from '../login-view/login-view';
@@ -36,15 +37,15 @@ export default class MainView extends React.Component {
     }
 
     // Code that will be executed after the component is rendered to the DOM / has been mounted. Place for async tasks such as ajax requests or event listeners
-    // In this case, we are making a call to the GET /movies endpoint to get a list of movies, then adding the list of movies to the state.movies array
+    // In this case, getting the accessToken from localStorage to persist login data between page refreshes
     componentDidMount() {
-        axios.get('https://t-dogg-movies-api.herokuapp.com/movies').then(response => {
+        let accessToken = localStorage.getItem('token');
+        if (accessToken !== null) {
             this.setState({
-                movies: response.data
+                user: localStorage.getItem('user')
             });
-        }).catch(error => {
-            console.log(error);
-        });
+            this.getMovies(accessToken);
+        }
     }
 
     // Custom method for changing the MainView state (for selectedMovie) which will mean the page will render either a single movie or a list of movies
@@ -54,10 +55,43 @@ export default class MainView extends React.Component {
         });
     }
 
-    // Custom method for updating the MainView state for the user property once a user is logged in
-    onLoggedIn(user) {
+    // Custom method for updating the MainView state for the user property once a user is logged in, and storing the JWT token in localStorage
+    onLoggedIn(authData) {
+        console.log(authData);
+        // Update the MainView state with the username passed in from LoginView
         this.setState({
-            user
+            user: authData.dataReturned.Username
+        });
+
+        // Update localStorage with the username and JWT token so we can store this users session
+        localStorage.setItem('token', authData.token);
+        localStorage.setItem('user', authData.dataReturned.Username);
+        // Call the getMovies function to get the list of movies from the server's API
+        this.getMovies(authData.token);
+    }
+
+    // Custom method for querying the database to retrieve a list of movies
+    getMovies(token) {
+        // Use axios to send a request to the movies endpoint of our API
+        axios.get('https://t-dogg-movies-api.herokuapp.com/movies', {
+            // By passing Bearer authoriztion in the header of the HTTP request, we can make authenticated requests to the API
+            headers: { Authorization: `Bearer ${token}`}
+        // Then set the state of MainView so we can access the list of movies
+        }).then(response => {
+            this.setState({
+                movies: response.data
+            });
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+
+    // Custom method for logging a user out by removing the username and JWT from localStorage, then setting the user state of MainView to null
+    onLoggedOut() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        this.setState({
+            user: null
         });
     }
 
@@ -121,6 +155,8 @@ export default class MainView extends React.Component {
                     ))
                 )
                 }
+                {/* Temporary place for logout button until I am able to add it to the navbar with Redux */}
+                <Button onClick={() => this.onLoggedOut()} varient="link">Logout</Button>
             </Row>
         );
     }

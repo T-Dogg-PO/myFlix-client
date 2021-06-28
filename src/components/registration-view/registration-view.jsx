@@ -17,33 +17,53 @@ export function RegistrationView(props) {
     const [ password, setPassword ] = useState('');
     const [ email, setEmail ] = useState('');
     const [ birthDate, setBirthDate ] = useState('');
+    // Extra state for this view to be used in the Form Validation. Starting value is false
+    const [ validated, setValidated ] = useState(false);
 
+    // https://stackoverflow.com/questions/63494157/react-bootstrap-forms-form-control-feedback-form-control-feedback-is-not-di
     // Function for submitting the registration credentials
     const handleSubmit = (e) => {
-        // Prevent the default behaviour of submitting the form (which would refresh the page)
-        e.preventDefault();
-        // Log the details to the console (for now)
-        console.log(username, password, email, birthDate);
-        // props.onRegistration will call a function in main-view.jsx which for now will just reload the login page
-        props.onRegistration();
+        // Get the form element and store it in the const form (currentTarget of the event is the submit button, and the form element is the parentNode of that)
+        const form = e.currentTarget.parentNode;
+        // Use checkValidity() to check for any validation errors in the form (based on what is described in the form elements attributes)
+        if (form.checkValidity() === false) {
+            // If checkValidity() returns false, stop the submission. stopPropagation() is used to stop propagation of the same event being called
+            e.preventDefault();
+            e.stopPropagation();
+            // Even if the form is not valid, the validated state variable needs to be set to true. This will toggle any validation styles on the forms elements (as per React Bootstraps documentation)
+            setValidated(true);
+        } else {
+            // Prevent the default behaviour of submitting the form (which would refresh the page)
+            e.preventDefault();
+            // Change the validated state variable to true to mark the form as validated
+            setValidated(true);
+            // Log the details to the console (for now)
+            console.log(username, password, email, birthDate);
+            // props.onRegistration will call a function in main-view.jsx which for now will just reload the login page
+            props.onRegistration(); }
     };
 
     // Return the HTML code for the login form
     return (
-        <Form>
+        // The noValidate attribute will prevent default HTML5 validation, meaning we can get nice looking Bootstrap validation instead
+        // The validated attribute is taken from the validated state variable. Marks whether the form has been validated or not, and will toggle validation on the form elements
+        <Form noValidate validated={validated}>
             <Form.Group controlId="registrationFormUsername">
                 <Form.Label>Username:</Form.Label>
-                <Form.Control type="text" onChange={e => setUsername(e.target.value)} />
+                <Form.Control type="text" onChange={e => setUsername(e.target.value)} required />
+                <Form.Control.Feedback type="invalid">Please enter a username</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group controlId="registrationFormPassword">
                 <Form.Label>Password:</Form.Label>
-                <Form.Control type="password" onChange={e => setPassword(e.target.value)} />
+                <Form.Control type="password" onChange={e => setPassword(e.target.value)} required />
+                <Form.Control.Feedback type="invalid">Please enter a password</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group controlId="registrationFormEmail">
                 <Form.Label>Email:</Form.Label>
-                <Form.Control type="email" onChange={e => setEmail(e.target.value)} />
+                <Form.Control type="email" onChange={e => setEmail(e.target.value)} required />
+                <Form.Control.Feedback type="invalid">Please enter a valid email address</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group controlId="registrationDateOfBirth">
@@ -58,29 +78,6 @@ export function RegistrationView(props) {
                 Back to Login
             </Button>
         </Form>
-
-        // <form>
-        //     <label>
-        //         Username:
-        //         {/* When this input field is changed, onChange will call the setUsername function defined above to change the values of the registration variables */}
-        //         <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
-        //     </label>
-        //     <label>
-        //         Password:
-        //         <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
-        //     </label>
-        //     <label>
-        //         Email:
-        //         <input type="email" value={email} onChange={e => setEmail(e.target.value)} />
-        //     </label>
-        //     <label>
-        //         Date of Birth:
-        //         <input type="date" value={birthDate} onChange={e => setBirthDate(e.target.value)} />
-        //     </label>
-        //     {/* Two buttons which, when clicked, will call different functions to either register or go back to the login page */}
-        //     <button type="submit" onClick={handleSubmit}>Register</button>
-        //     <button type="button" onClick={() => {props.toggleRegister(); }}>Back</button>
-        // </form>
     );
 }
 
