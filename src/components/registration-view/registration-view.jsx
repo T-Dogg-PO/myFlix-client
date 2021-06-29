@@ -7,8 +7,12 @@ import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
+// Import the Link component from react-router-dom for the Register button
+import { Link } from 'react-router-dom';
+
 // Import the scss file for this view
 import './registration-view.scss'
+import axios from 'axios';
 
 // Expose the RegistrationView component for use in other parts of the app
 export function RegistrationView(props) {
@@ -37,10 +41,22 @@ export function RegistrationView(props) {
             e.preventDefault();
             // Change the validated state variable to true to mark the form as validated
             setValidated(true);
-            // Log the details to the console (for now)
-            console.log(username, password, email, birthDate);
-            // props.onRegistration will call a function in main-view.jsx which for now will just reload the login page
-            props.onRegistration(); }
+            axios.post('https://t-dogg-movies-api.herokuapp.com/users', {
+                Username: username,
+                Password: password,
+                Email: email,
+                Birthday: birthDate
+            }).then(response => {
+                const data = response.data;
+                console.log(data);
+                // This will redirect to the default route ('/'). The second argument '_self' is necessary to prevent a new window from opening
+                window.open('/', '_self');
+            }).catch(e => {
+                console.log('error registering the user')
+            });
+            // // props.onRegistration will call a function in main-view.jsx which for now will just reload the login page
+            // props.onRegistration(); 
+        }
     };
 
     // Return the HTML code for the login form
@@ -74,14 +90,14 @@ export function RegistrationView(props) {
             <Button varient="primary" type="submit" onClick={handleSubmit}>
                 Register
             </Button>
-            <Button className="float-right" varient="primary" type="button" onClick={props.toggleRegister}>
-                Back to Login
-            </Button>
+            <Link to={'/'} className="float-right">
+                <Button varient="link" type="button">Back to Login</Button>
+            </Link>
         </Form>
     );
 }
 
 // Set the propTypes of the RegistrationView
-RegistrationView.propTypes = {
-    onRegistration: PropTypes.func.isRequired
-};
+// RegistrationView.propTypes = {
+//     onRegistration: PropTypes.func.isRequired
+// };

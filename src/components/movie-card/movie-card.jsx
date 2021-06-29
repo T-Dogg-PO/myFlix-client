@@ -6,6 +6,9 @@ import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
+// Import the Link component from react-router-dom for the View Movie Details button
+import { Link } from 'react-router-dom';
+
 // Import the scss file for this view
 import './movie-card.scss'
 
@@ -13,7 +16,7 @@ import './movie-card.scss'
 export class MovieCard extends React.Component {
     render() {
         // Gets each movie's data from this.props and stores it in the movie object
-        const { movieData, onMovieClick } = this.props;
+        const { movieData } = this.props;
         // Return a div with the movie's title
         return (
             <Card className="card_styling" border="dark">
@@ -21,7 +24,9 @@ export class MovieCard extends React.Component {
                 <Card.Body className="d-flex flex-column">
                     <Card.Title>{movieData.Title}</Card.Title>
                     <Card.Text className="truncated_text">{movieData.Description}</Card.Text>
-                    <Button onClick={() => onMovieClick(movieData)} varient="link" className="mt-auto">View Movie Details</Button>
+                    <Link to={`/movies/${movieData._id}`} className="mt-auto mx-auto">
+                        <Button varient="link">View Movie Details</Button>
+                    </Link>
                 </Card.Body>
             </Card>
         );
@@ -55,6 +60,4 @@ MovieCard.propTypes = {
         // Optional Featured key which must be a boolean
         Featured: PropTypes.bool
     }).isRequired,
-    // The props object must contain onMovieClick and it must be a function
-    onMovieClick: PropTypes.func.isRequired
 };

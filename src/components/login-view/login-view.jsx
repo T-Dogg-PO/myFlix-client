@@ -7,6 +7,9 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
+// Import the Link component from react-router-dom for the Register button
+import { Link } from 'react-router-dom';
+
 // Import prop-types, which will validate the data of props passed between different components
 import PropTypes from 'prop-types';
 
@@ -73,15 +76,14 @@ export function LoginView(props) {
             <Button varient="primary" type="submit" onClick={handleSubmit}>
                 Submit
             </Button>
-            <Button className="float-right" varient="primary" type="button" onClick={props.toggleRegister}>
-                No account? Click here to Register!
-            </Button>
+            <Link to={`/register`} className="float-right">
+                <Button varient="link" type="button">No account? Click here to Register!</Button>
+            </Link>
         </Form>
     );
 }
 
 // Set the propTypes property on LoginView
 LoginView.propTypes = {
-    toggleRegister: PropTypes.func.isRequired,
     onLoggedIn: PropTypes.func.isRequired
 };
