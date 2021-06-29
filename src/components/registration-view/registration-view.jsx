@@ -11,7 +11,7 @@ import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 
 // Import the scss file for this view
-import './registration-view.scss'
+import './registration-view.scss';
 import axios from 'axios';
 
 // Expose the RegistrationView component for use in other parts of the app

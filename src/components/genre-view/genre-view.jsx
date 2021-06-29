@@ -8,7 +8,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
 // Import the scss file for this view
-import './genre-view.scss'
+import './genre-view.scss';
 
 // Export the GenreView class that extends the component template React.Component
 export class GenreView extends React.Component {

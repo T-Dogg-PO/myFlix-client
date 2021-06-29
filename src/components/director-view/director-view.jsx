@@ -8,7 +8,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
 // Import the scss file for this view
-import './director-view.scss'
+import './director-view.scss';
 
 // Export the DirectorView class that extends the component template React.Component
 export class DirectorView extends React.Component {

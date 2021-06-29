@@ -5,11 +5,15 @@ import axios from 'axios';
 
 // Import library components from react-router-dom for our routing. BrowerRouter is used to implement state-based routing
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // Import the React Bootstrap components that will be used in this view
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import Navbar from 'react-bootstrap/Navbar';
+import Image from 'react-bootstrap/Image';
+import Container from 'react-bootstrap/Container';
 
 // Import the different components used in this view
 import { LoginView } from '../login-view/login-view';
@@ -18,9 +22,10 @@ import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { GenreView } from '../genre-view/genre-view';
 import { DirectorView } from '../director-view/director-view';
+import { ProfileView } from '../profile-view/profile-view';
 
 // Import the scss file for this view
-import './main-view.scss'
+import './main-view.scss';
 
 // Expose the MainView component for use in other parts of the app using export
 // Create the MainView component by extending the functionality of the component template React.Component
@@ -36,8 +41,7 @@ export default class MainView extends React.Component {
             // Initialize the starting value of selectedMovie, which will be used to display a movies details
             selectedMovie: null,
             // Initialize the starting value of user, which will be null until a user is logged in through the login-view
-            user: null,
-            // registration: null
+            user: null
         };
     }
 
@@ -47,7 +51,7 @@ export default class MainView extends React.Component {
         let accessToken = localStorage.getItem('token');
         if (accessToken !== null) {
             this.setState({
-                user: localStorage.getItem('user')
+                user: localStorage.getItem('user'),
             });
             this.getMovies(accessToken);
         }
@@ -65,15 +69,26 @@ export default class MainView extends React.Component {
         console.log(authData);
         // Update the MainView state with the username passed in from LoginView
         this.setState({
-            user: authData.dataReturned.Username
+            user: authData.dataReturned.Username,
         });
-
         // Update localStorage with the username and JWT token so we can store this users session
         localStorage.setItem('token', authData.token);
         localStorage.setItem('user', authData.dataReturned.Username);
         // Call the getMovies function to get the list of movies from the server's API
         this.getMovies(authData.token);
     }
+
+    // getUserDetails(token) {
+    //     axios.get(`https://t-dogg-movies-api.herokuapp.com/users/${this.state.user}`, {
+    //         headers: { Authorization: `Bearer ${token}`}
+    //     }).then(response => {
+    //         this.setState({
+    //             userDetails: response.data
+    //         });
+    //     }).catch(function(error) {
+    //         console.log(error);
+    //     });
+    // }
 
     // Custom method for querying the database to retrieve a list of movies
     getMovies(token) {
@@ -106,7 +121,23 @@ export default class MainView extends React.Component {
         const { movies, user } = this.state;
 
         return (
-            <Router>
+            <Router>                
+                <Navbar expand="lg" className="mb-4" sticky="top">
+                    <Navbar.Brand className="ml-4">
+                        <Link to={'/'}>
+                            <Image src="https://i.imgur.com/ykYgWv5.png" alt="myFlix logo" className="d-inline-block align-top" />
+                        </Link>
+                    </Navbar.Brand>
+                    {user && (
+                        <Navbar.Collapse className="justify-content-end">
+                            <Link to={`/users/${user}`} className="mr-2">
+                                <Button varient="link">Profile for {user}</Button>
+                            </Link>
+                            <Button onClick={() => this.onLoggedOut()} varient="link">Logout</Button>
+                        </Navbar.Collapse> 
+                    )}
+                </Navbar>
+                <Container>
                 {/* The movie attribute uses the movie prop from movie-card.jsx or movie-view.jsx to load the data into the MovieCard/MovieView element
                 The onBackClick attribute executes the same setSelectedMovie function above, except will pass it a null value instead of a movie */}
                 <Row className="main-view justify-content-md-center">
@@ -114,9 +145,9 @@ export default class MainView extends React.Component {
                     <Route exact path="/" render={() => {
                         // If there is no user logged in (i.e. the user state is null) then the login-view will be rendered. If there is a user logged in, the user details are passed as a prop to the LoginView
                         if (!user) return (
-                                <Col md={8}>
-                                    <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
-                                </Col>
+                            <Col md={8}>
+                                <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+                            </Col>
                         );
                         
                         // If the state of the movies array is empty, display nothing while the data is fetched from the database
@@ -191,9 +222,24 @@ export default class MainView extends React.Component {
                         </Col>
                     }} />
 
-                    {/* Temporary place for logout button until I am able to add it to the navbar with Redux */}
-                    {/* <Button onClick={() => this.onLoggedOut()} varient="link">Logout</Button> */}
+                    {/* Route for a user's profile page */}
+                    <Route path="/users/:userId" render={({ match, history }) => {
+                        // If there is no user logged in (i.e. the user state is null) then the login-view will be rendered. If there is a user logged in, the user details are passed as a prop to the LoginView
+                        if (!user) return (
+                            <Col md={8}>
+                                <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+                            </Col>
+                        );
+
+                        if (movies.length === 0) return <div className="main-view" />;
+                        
+                        return <Col md={8}>
+                            <ProfileView user={user} onBackClick={() => history.goBack()} />
+                        </Col>
+                    }} />
                 </Row>
+
+                </Container>
             </Router>
         );
     }

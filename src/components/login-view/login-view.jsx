@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 // Import the scss file for this view
-import './login-view.scss'
+import './login-view.scss';
 
 // Expose the LoginView component for use in other parts of the app using export
 export function LoginView(props) {

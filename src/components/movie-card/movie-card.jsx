@@ -10,7 +10,7 @@ import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 
 // Import the scss file for this view
-import './movie-card.scss'
+import './movie-card.scss';
 
 // Export a new class called MovieCard that extends the component template React.Component
 export class MovieCard extends React.Component {

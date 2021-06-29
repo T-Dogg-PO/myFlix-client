@@ -1,10 +1,7 @@
 // Import React
 import React from 'react';
 import ReactDOM from 'react-dom';
-// Import the React Bootstrap components that will be used in this view
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
-import Image from 'react-bootstrap/Image';
+
 // Import Components
 import MainView from './components/main-view/main-view';
 
@@ -17,14 +14,7 @@ class MyFlixApplication extends React.Component {
     render() {
         return (
             <div className="my-flix">
-                <Navbar expand="lg" className="mb-4" sticky="top">
-                    <Navbar.Brand href="#" className="ml-4">
-                        <Image src="https://i.imgur.com/ykYgWv5.png" alt="myFlix logo" className="d-inline-block align-top" />
-                    </Navbar.Brand>
-                </Navbar>
-                <Container>
-                    <MainView />
-                </Container>
+                <MainView />
             </div>
         );
     }
