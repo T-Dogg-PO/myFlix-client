@@ -29,16 +29,16 @@ export class MovieView extends React.Component {
                             <Card.Img varient="top" src={movie.ImagePath} className="big_image" />
                         </Col>
                         <Col xs={12} md={6}>
-                        <Card.Title className="text-center">{movie.Title}</Card.Title>
-                        <Card.Text>{movie.Description}</Card.Text>
-                        {/* && operator here is an alternative to an if statement. If movie.Genre.Name exists, then it will render the Genre section. If it doesn't exist, it will skip */}
-                        {movie.Genre.Name && (
-                            <Card.Text className="genre_heading"><span className="genre_title">Genre: </span><Link to={`/genres/${movie.Genre.Name}`}>{movie.Genre.Name}</Link></Card.Text>
-                        )}
-                        {movie.Director.Name && (
-                            <Card.Text className="director_heading"><span className="director_title">Directed by </span><Link to={`/directors/${movie.Director.Name}`}>{movie.Director.Name}</Link></Card.Text>
-                        )}
-                        <Button onClick={() => onBackClick(null)} varient="link">Back</Button>
+                            <Card.Title className="text-center">{movie.Title}</Card.Title>
+                            <Card.Text>{movie.Description}</Card.Text>
+                            {/* && operator here is an alternative to an if statement. If movie.Genre.Name exists, then it will render the Genre section. If it doesn't exist, it will skip */}
+                            {movie.Genre.Name && (
+                                <Card.Text className="genre_heading"><span className="genre_title">Genre: </span><Link to={`/genres/${movie.Genre.Name}`}>{movie.Genre.Name}</Link></Card.Text>
+                            )}
+                            {movie.Director.Name && (
+                                <Card.Text className="director_heading"><span className="director_title">Directed by </span><Link to={`/directors/${movie.Director.Name}`}>{movie.Director.Name}</Link></Card.Text>
+                            )}
+                            <Button onClick={() => onBackClick(null)} varient="link">Back</Button>
                         </Col>
                     </Row>
                 </Card.Body>

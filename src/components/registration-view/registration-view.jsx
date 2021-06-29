@@ -51,7 +51,7 @@ export function RegistrationView(props) {
                 console.log(data);
                 // This will redirect to the default route ('/'). The second argument '_self' is necessary to prevent a new window from opening
                 window.open('/', '_self');
-            }).catch(e => {
+            }).catch(error => {
                 console.log('error registering the user')
             });
             // // props.onRegistration will call a function in main-view.jsx which for now will just reload the login page

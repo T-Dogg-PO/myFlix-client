@@ -78,18 +78,6 @@ export default class MainView extends React.Component {
         this.getMovies(authData.token);
     }
 
-    // getUserDetails(token) {
-    //     axios.get(`https://t-dogg-movies-api.herokuapp.com/users/${this.state.user}`, {
-    //         headers: { Authorization: `Bearer ${token}`}
-    //     }).then(response => {
-    //         this.setState({
-    //             userDetails: response.data
-    //         });
-    //     }).catch(function(error) {
-    //         console.log(error);
-    //     });
-    // }
-
     // Custom method for querying the database to retrieve a list of movies
     getMovies(token) {
         // Use axios to send a request to the movies endpoint of our API
