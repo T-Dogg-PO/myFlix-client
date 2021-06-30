@@ -174,7 +174,7 @@ export default class MainView extends React.Component {
                         if (movies.length === 0) return <div className="main-view" />;
 
                         return <Col md={8}>
-                            <MovieView movie={movies.find(selectedMovie => selectedMovie._id === match.params.movieId)} onBackClick={() => history.goBack()} />
+                            <MovieView movie={movies.find(selectedMovie => selectedMovie._id === match.params.movieId)} user={user} onBackClick={() => history.goBack()} />
                         </Col>
                     }} />
 
@@ -211,7 +211,7 @@ export default class MainView extends React.Component {
                     }} />
 
                     {/* Route for a user's profile page */}
-                    <Route path="/users/:userId" render={({ match, history }) => {
+                    <Route path="/users/:username" render={({ history }) => {
                         // If there is no user logged in (i.e. the user state is null) then the login-view will be rendered. If there is a user logged in, the user details are passed as a prop to the LoginView
                         if (!user) return (
                             <Col md={8}>
@@ -221,8 +221,8 @@ export default class MainView extends React.Component {
 
                         if (movies.length === 0) return <div className="main-view" />;
                         
-                        return <Col md={8}>
-                            <ProfileView user={user} onBackClick={() => history.goBack()} />
+                        return <Col md={10}>
+                            <ProfileView user={user} movies={movies} onBackClick={() => history.goBack()} />
                         </Col>
                     }} />
                 </Row>
