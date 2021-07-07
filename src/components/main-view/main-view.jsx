@@ -3,6 +3,8 @@ import React from 'react';
 // Import axios (a library for making ajax requests from our database)
 import axios from 'axios';
 
+import { connect } from 'react-redux';
+
 // Import library components from react-router-dom for our routing. BrowerRouter is used to implement state-based routing
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -15,6 +17,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import Image from 'react-bootstrap/Image';
 import Container from 'react-bootstrap/Container';
 
+import { setMovies } from '../../actions/actions';
+
 // Import the different components used in this view
 import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
@@ -23,13 +27,14 @@ import { MovieView } from '../movie-view/movie-view';
 import { GenreView } from '../genre-view/genre-view';
 import { DirectorView } from '../director-view/director-view';
 import { ProfileView } from '../profile-view/profile-view';
+import MoviesList from '../movies-list/movies-list';
 
 // Import the scss file for this view
 import './main-view.scss';
 
 // Expose the MainView component for use in other parts of the app using export
 // Create the MainView component by extending the functionality of the component template React.Component
-export default class MainView extends React.Component {
+class MainView extends React.Component {
     // The constructor() method will initialize the component and create it in memory
     constructor() {
         // super() will call the constructor of the parent class (i.e. React.Component)
@@ -37,7 +42,7 @@ export default class MainView extends React.Component {
         // After super() in the constructor method, additional code can be added which will be executed when the component is created in memory (before being rendered)
         // this.state inside the constructor() method is initializing the starting value of the MainView state to an object containing an array of movies (called movies)
         this.state = {
-            movies: [],
+            // movies: [],
             // Initialize the starting value of selectedMovie, which will be used to display a movies details
             selectedMovie: null,
             // Initialize the starting value of user, which will be null until a user is logged in through the login-view
@@ -86,9 +91,10 @@ export default class MainView extends React.Component {
             headers: { Authorization: `Bearer ${token}`}
         // Then set the state of MainView so we can access the list of movies
         }).then(response => {
-            this.setState({
-                movies: response.data
-            });
+            // this.setState({
+            //     movies: response.data
+            // });
+            this.props.setMovies(response.data);
         }).catch(function (error) {
             console.log(error);
         });
@@ -106,7 +112,9 @@ export default class MainView extends React.Component {
     // render() will return the visual representation of the component. Inside the function is the JSX code which will be rendered.
     render() {
         // Get the variables stored in this view's state, ready for use in the logic below
-        const { movies, user } = this.state;
+        // const { movies, user } = this.state;
+        let { movies } = this.props;
+        let { user } = this.state;
 
         return (
             <Router>                
@@ -143,11 +151,12 @@ export default class MainView extends React.Component {
 
                         // Note that movies.map will call the provided callback function for each element in the movies array
                         // The key attribute for each movie item will help React distinguish between similar items for efficient changing/removing
-                        return movies.map(movie => (
-                            <Col md={3} key={movie._id} className="my-2">
-                                <MovieCard movieData={movie} />
-                            </Col>
-                        ))
+                        // return movies.map(movie => (
+                        //     <Col md={3} key={movie._id} className="my-2">
+                        //         <MovieCard movieData={movie} />
+                        //     </Col>
+                        // ))
+                        return <MoviesList movies={movies} />;
                     }} />
 
                     {/* Route to the registiraion view when the Register button is clicked */}
@@ -232,3 +241,9 @@ export default class MainView extends React.Component {
         );
     }
 }
+
+let mapStateToProps = state => {
+    return { movies: state.movies }
+}
+
+export default connect(mapStateToProps, { setMovies } )(MainView);
