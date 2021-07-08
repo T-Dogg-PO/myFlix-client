@@ -10,6 +10,8 @@ import Button from 'react-bootstrap/Button';
 // Import the Link component from react-router-dom for the Register button
 import { Link } from 'react-router-dom';
 
+import { connect } from 'react-redux';
+
 // Import prop-types, which will validate the data of props passed between different components
 import PropTypes from 'prop-types';
 
@@ -87,3 +89,13 @@ export function LoginView(props) {
 LoginView.propTypes = {
     onLoggedIn: PropTypes.func.isRequired
 };
+
+// mapDispatchToProps will dispatch an action to trigger a state change (in this case, the handleSubmit function)
+let mapDispatchToProps = (dispatch) => {
+    return({
+        handleSubmit: (username, password) => dispatch(handleSubmit(username, password))
+    })
+};
+
+// The Redux connect function provides the component with pieces of data it needs from the store, and functions it can use to dispatch actions to the store
+export default connect(null, mapDispatchToProps)(LoginView);

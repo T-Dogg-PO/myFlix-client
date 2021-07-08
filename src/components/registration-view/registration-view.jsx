@@ -1,7 +1,5 @@
 // Import React and the useState Hook from the React library
 import React, { useState } from 'react';
-// Import prop-types, which will validate the data of props passed between different components
-import PropTypes from 'prop-types';
 
 // Import the React Bootstrap components which will be used in this view
 import Form from 'react-bootstrap/Form';
@@ -24,7 +22,6 @@ export function RegistrationView(props) {
     // Extra state for this view to be used in the Form Validation. Starting value is false
     const [ validated, setValidated ] = useState(false);
 
-    // https://stackoverflow.com/questions/63494157/react-bootstrap-forms-form-control-feedback-form-control-feedback-is-not-di
     // Function for submitting the registration credentials
     const handleSubmit = (e) => {
         // Get the form element and store it in the const form (currentTarget of the event is the submit button, and the form element is the parentNode of that)
@@ -96,8 +93,3 @@ export function RegistrationView(props) {
         </Form>
     );
 }
-
-// Set the propTypes of the RegistrationView
-// RegistrationView.propTypes = {
-//     onRegistration: PropTypes.func.isRequired
-// };

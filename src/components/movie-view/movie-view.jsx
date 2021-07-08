@@ -5,6 +5,8 @@ import axios from 'axios';
 // Import prop-types, which will validate the data of props passed between different components
 import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux';
+
 // Import the Link component from react-router-dom for the View Movie Details button
 import { Link } from 'react-router-dom';
 
@@ -23,8 +25,6 @@ export class MovieView extends React.Component {
         super(props);
         // Create state variables that will be used to add/remove a movie from a users favourites list
         this.state = {
-            // REMOVED line of code, as I couldn't get an isFavourite flag to work as a state variable. My solution can be found in the render() function
-            // isFavourite: false,
             favouriteMovies: [],
             userDetails: []
         }
@@ -42,9 +42,11 @@ export class MovieView extends React.Component {
 
     // getUserDetails function for making a request to the server for the users details
     getUserDetails(token) {
-        axios.get(`https://t-dogg-movies-api.herokuapp.com/users/${this.props.user}`, {
+        let user = localStorage.getItem('user');
+        axios.get(`https://t-dogg-movies-api.herokuapp.com/users/${user}`, {
             headers: { Authorization: `Bearer ${token}`}
         }).then(response => {
+            console.log(response.data)
             // Use the response to set the user details in the state variables
             this.setState({
                 userDetails: response.data,
@@ -58,12 +60,11 @@ export class MovieView extends React.Component {
     // Function for adding this movie to a users favourites list. Makes a post request to the server using information passed in through the props
     addFavourite() {
         let token = localStorage.getItem('token');
+        let user = localStorage.getItem('user');
         // I'm not sure why I need the first {} (before the headers). but without those empty brackets all my requests returned unauthorized
-        axios.post(`https://t-dogg-movies-api.herokuapp.com/users/${this.props.user}/Movies/${this.props.movie._id}`, {}, {
+        axios.post(`https://t-dogg-movies-api.herokuapp.com/users/${user}/Movies/${this.props.movie._id}`, {}, {
             headers: { Authorization: `Bearer ${token}` }
         }).then(response => {
-            // Set the isFavourite state to true, now that this movie has been added to the list of favourites
-            // this.setState({ isFavourite: true });
             // window.open refreshes the page to make sure this movie is correctly displaying as a favourite
             window.open(`/movies/${this.props.movie._id}`, '_self');
         }).catch(function(error) {
@@ -74,11 +75,10 @@ export class MovieView extends React.Component {
     // Function for removing this movie from a users favourites list. Makes a delete request to the server using information passed in through the props
     removeFavourite() {
         let token = localStorage.getItem('token');
-        axios.delete(`https://t-dogg-movies-api.herokuapp.com/users/${this.props.user}/Movies/${this.props.movie._id}`, {
+        let user = localStorage.getItem('user');
+        axios.delete(`https://t-dogg-movies-api.herokuapp.com/users/${user}/Movies/${this.props.movie._id}`, {
             headers: { Authorization: `Bearer ${token}` }
         }).then(response => {
-            // Set the isFavourite state to false, now that this movie has been removed from the list of favourites
-            // this.setState({ isFavourite: false });
             // window.open refreshes the page to make sure this movie is correctly displaying as not a favourite
             window.open(`/movies/${this.props.movie._id}`, '_self');
         }).catch(function(error) {
@@ -88,16 +88,17 @@ export class MovieView extends React.Component {
 
     render() {
         // Get the movie and the onBackClick details from this objects props
-        const { movie, onBackClick } = this.props;
+        const { movie, onBackClick, user } = this.props;
 
         // This section of code sets a flag which will show a add/remove favourites button depending on if the movie can be found in the users favourites
-        let tempArray = this.state.favouriteMovies;
+        let tempArray = user.FavouriteMovies;
         let isFavouriteNew = false
-        if (tempArray.includes(this.props.movie._id)) {
+        if (tempArray.includes(movie._id)) {
             isFavouriteNew = true;
         } else {
             isFavouriteNew = false;
         };
+        console.log(isFavouriteNew)
 
         // Return a single div (movie-view) that contains divs for the ImagePath, Title and Description
         return (
@@ -156,3 +157,12 @@ MovieView.propTypes = {
     }),
     onBackClick: PropTypes.func.isRequired
 };
+
+// mapStateToProps to connect the store to props which van be used in this comonent
+const mapStateToProps = state => {
+    const { user } = state;
+    return { user };
+};
+
+// connect function to link the above function to the MovieView
+export default connect(mapStateToProps)(MovieView);

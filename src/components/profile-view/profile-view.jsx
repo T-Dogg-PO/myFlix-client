@@ -47,11 +47,12 @@ export class ProfileView extends React.Component {
     // During the componentDidMount() part of the lifecycle, call getUserDetails to get the user's information from the database
     componentDidMount() {
         let accessToken = localStorage.getItem('token');
-        this.getUserDetails(accessToken);
+        // this.getUserDetails(accessToken);
     }
 
     // getUserDetails makes a request to the database for this user's details
     getUserDetails(token) {
+        console.log(this.props.user)
         axios.get(`https://t-dogg-movies-api.herokuapp.com/users/${this.props.user}`, {
             headers: { Authorization: `Bearer ${token}`}
         }).then(response => {
@@ -126,7 +127,7 @@ export class ProfileView extends React.Component {
             // Remove the user details and auth token from localStorage, and send the user back to the login page (since they are now logged out)
             localStorage.removeItem('user');
             localStorage.removeItem('token');
-            window.open('/', '_self');
+            window.open(`/}`, '_self');
         }).catch(error => {
             console.log('error deleting the user');
         })
@@ -135,17 +136,17 @@ export class ProfileView extends React.Component {
     // Render function to display items on the DOM
     render() {
         // Get the props that were passed into this view and store them in appropriate variables
-        const { movies, onBackClick} = this.props;
+        const { movies, onBackClick, user} = this.props;
 
         // Section of code for getting the users favourites (so that they can be displayed on the page)
         // I am aware that this probably isn't the best way/place to get this information, but I couldn't work out another way to do it
         // In hindsight, if I was writing this again I'd use a function component for ProfileView instead of a class component to make working with this information easier
         // First get the array of a user's favourite movies (which was obtained from the initial GET request to the API)
-        let tempArray = this.state.favouriteMovies;
+        // let tempArray = this.state.favouriteMovies;
         // Get an empty array which will store all of the movie objects which match the favourites list
         let favouriteMoviesArray = [];
         // Filter the movies array (obtained from props) and only save those movies which match ID's from the list of the users favourites
-        favouriteMoviesArray = movies.filter(movie => tempArray.includes(movie._id));
+        favouriteMoviesArray = movies.filter(movie => user.FavouriteMovies.includes(movie._id));
 
         return (
             <div className="profile_view">
@@ -167,11 +168,11 @@ export class ProfileView extends React.Component {
                 {/* Card for displaying current user details */}
                 <Card border="dark">
                     <Card.Body>
-                        <Card.Title className="text-center">Profile of {this.state.userDetails.Username}</Card.Title>
-                        <Card.Text><span className="profile_heading">Email: </span>{this.state.userDetails.Email}</Card.Text>
+                        <Card.Title className="text-center">Profile of {user.Username}</Card.Title>
+                        <Card.Text><span className="profile_heading">Email: </span>{user.Email}</Card.Text>
                         {/* Only display birthday section if a user has filled that out (since it's the only optional section) */}
-                        {this.state.userDetails.Birthday && (
-                            <Card.Text><span className="profile_heading">Date of Birth: </span>{Intl.DateTimeFormat().format(new Date(this.state.userDetails.Birthday))}</Card.Text>
+                        {user.Birthday && (
+                            <Card.Text><span className="profile_heading">Date of Birth: </span>{Intl.DateTimeFormat().format(new Date(user.Birthday))}</Card.Text>
                         )}
                     </Card.Body>
                 </Card>

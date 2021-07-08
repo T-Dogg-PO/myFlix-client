@@ -17,7 +17,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import Image from 'react-bootstrap/Image';
 import Container from 'react-bootstrap/Container';
 
-import { setMovies } from '../../actions/actions';
+// Import the actions that will be used in this component
+import { setMovies, setUser } from '../../actions/actions';
 
 // Import the different components used in this view
 import { LoginView } from '../login-view/login-view';
@@ -39,15 +40,6 @@ class MainView extends React.Component {
     constructor() {
         // super() will call the constructor of the parent class (i.e. React.Component)
         super();
-        // After super() in the constructor method, additional code can be added which will be executed when the component is created in memory (before being rendered)
-        // this.state inside the constructor() method is initializing the starting value of the MainView state to an object containing an array of movies (called movies)
-        this.state = {
-            // movies: [],
-            // Initialize the starting value of selectedMovie, which will be used to display a movies details
-            selectedMovie: null,
-            // Initialize the starting value of user, which will be null until a user is logged in through the login-view
-            user: null
-        };
     }
 
     // Code that will be executed after the component is rendered to the DOM / has been mounted. Place for async tasks such as ajax requests or event listeners
@@ -55,9 +47,7 @@ class MainView extends React.Component {
     componentDidMount() {
         let accessToken = localStorage.getItem('token');
         if (accessToken !== null) {
-            this.setState({
-                user: localStorage.getItem('user'),
-            });
+            this.getUserDetails(accessToken);
             this.getMovies(accessToken);
         }
     }
@@ -71,16 +61,26 @@ class MainView extends React.Component {
 
     // Custom method for updating the MainView state for the user property once a user is logged in, and storing the JWT token in localStorage
     onLoggedIn(authData) {
-        console.log(authData);
-        // Update the MainView state with the username passed in from LoginView
-        this.setState({
-            user: authData.dataReturned.Username,
-        });
         // Update localStorage with the username and JWT token so we can store this users session
         localStorage.setItem('token', authData.token);
         localStorage.setItem('user', authData.dataReturned.Username);
+        // Trigger the setUser action to update the store with this user
+        this.props.setUser(authData.dataReturned);
         // Call the getMovies function to get the list of movies from the server's API
         this.getMovies(authData.token);
+    }
+
+    // Function for getting user details, the only way I've found so far to keep the store updated with the current user details (needs to work on/clarify how to do this)
+    getUserDetails(token) {
+        let userLocalStorage = localStorage.getItem('user');
+        axios.get(`https://t-dogg-movies-api.herokuapp.com/users/${userLocalStorage}`, {
+            headers: { Authorization: `Bearer ${token}`}
+        }).then(response => {
+            this.props.setUser(response.data);
+            console.log(response.data)
+        }).catch(function (error) {
+            console.log(error);
+        });
     }
 
     // Custom method for querying the database to retrieve a list of movies
@@ -89,11 +89,8 @@ class MainView extends React.Component {
         axios.get('https://t-dogg-movies-api.herokuapp.com/movies', {
             // By passing Bearer authoriztion in the header of the HTTP request, we can make authenticated requests to the API
             headers: { Authorization: `Bearer ${token}`}
-        // Then set the state of MainView so we can access the list of movies
+        // Then trigger the setMovies action, which will modify the state for us
         }).then(response => {
-            // this.setState({
-            //     movies: response.data
-            // });
             this.props.setMovies(response.data);
         }).catch(function (error) {
             console.log(error);
@@ -104,17 +101,13 @@ class MainView extends React.Component {
     onLoggedOut() {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        this.setState({
-            user: null
-        });
+        this.props.setUser(null);
     }
 
     // render() will return the visual representation of the component. Inside the function is the JSX code which will be rendered.
     render() {
-        // Get the variables stored in this view's state, ready for use in the logic below
-        // const { movies, user } = this.state;
-        let { movies } = this.props;
-        let { user } = this.state;
+        // Get the variables that are now in the components props, thanks to mapStateToProps
+        let { movies, user } = this.props;
 
         return (
             <Router>                
@@ -126,8 +119,8 @@ class MainView extends React.Component {
                     </Navbar.Brand>
                     {user && (
                         <Navbar.Collapse className="justify-content-end">
-                            <Link to={`/users/${user}`} className="mr-2">
-                                <Button varient="link">Profile for {user}</Button>
+                            <Link to={`/users/${user.Username}`} className="mr-2">
+                                <Button varient="link">Profile for {user.Username}</Button>
                             </Link>
                             <Button onClick={() => this.onLoggedOut()} varient="link">Logout</Button>
                         </Navbar.Collapse> 
@@ -149,13 +142,6 @@ class MainView extends React.Component {
                         // If the state of the movies array is empty, display nothing while the data is fetched from the database
                         if (movies.length === 0) return <div className="main-view" />;
 
-                        // Note that movies.map will call the provided callback function for each element in the movies array
-                        // The key attribute for each movie item will help React distinguish between similar items for efficient changing/removing
-                        // return movies.map(movie => (
-                        //     <Col md={3} key={movie._id} className="my-2">
-                        //         <MovieCard movieData={movie} />
-                        //     </Col>
-                        // ))
                         return <MoviesList movies={movies} />;
                     }} />
 
@@ -242,8 +228,13 @@ class MainView extends React.Component {
     }
 }
 
+// mapStateToProps takes the state (from the store) and converts it to props we can use in this component
 let mapStateToProps = state => {
-    return { movies: state.movies }
+    return {
+        movies: state.movies,
+        user: state.user
+    }
 }
 
-export default connect(mapStateToProps, { setMovies } )(MainView);
+// The Redux connect function provides the component with pieces of data it needs from the store, and functions it can use to dispatch actions to the store
+export default connect(mapStateToProps, { setMovies, setUser } )(MainView);
