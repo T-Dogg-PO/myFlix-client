@@ -16,6 +16,7 @@ import Button from 'react-bootstrap/Button';
 import Navbar from 'react-bootstrap/Navbar';
 import Image from 'react-bootstrap/Image';
 import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav'
 
 // Import the actions that will be used in this component
 import { setMovies, setUser } from '../../actions/actions';
@@ -117,14 +118,16 @@ class MainView extends React.Component {
                             <Image src="https://i.imgur.com/ykYgWv5.png" alt="myFlix logo" className="d-inline-block align-top" />
                         </Link>
                     </Navbar.Brand>
-                    {user && (
-                        <Navbar.Collapse className="justify-content-end">
-                            <Link to={`/users/${user.Username}`} className="mr-2">
-                                <Button varient="link">Profile for {user.Username}</Button>
-                            </Link>
-                            <Button onClick={() => this.onLoggedOut()} varient="link">Logout</Button>
-                        </Navbar.Collapse> 
-                    )}
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                        {user && (
+                            <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+                                <Link to={`/users/${user.Username}`} className="mr-2">
+                                    <Button varient="link">Profile for {user.Username}</Button>
+                                </Link>
+                                <Button onClick={() => this.onLoggedOut()} varient="link">Logout</Button>
+                            </Navbar.Collapse>
+                        )}
+
                 </Navbar>
                 <Container>
                 {/* The movie attribute uses the movie prop from movie-card.jsx or movie-view.jsx to load the data into the MovieCard/MovieView element

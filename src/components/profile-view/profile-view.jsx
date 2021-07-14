@@ -1,5 +1,5 @@
 // Import React into this file
-import React from 'react';
+import React, { useReducer } from 'react';
 // Import axios (a library for making ajax requests from our database)
 import axios from 'axios';
 
@@ -144,9 +144,19 @@ export class ProfileView extends React.Component {
         // First get the array of a user's favourite movies (which was obtained from the initial GET request to the API)
         // let tempArray = this.state.favouriteMovies;
         // Get an empty array which will store all of the movie objects which match the favourites list
+        // let favouriteMoviesArray = [];
+        // // Filter the movies array (obtained from props) and only save those movies which match ID's from the list of the users favourites
+        // favouriteMoviesArray = movies.filter(movie => user.FavouriteMovies.includes(movie._id));
+
         let favouriteMoviesArray = [];
-        // Filter the movies array (obtained from props) and only save those movies which match ID's from the list of the users favourites
-        favouriteMoviesArray = movies.filter(movie => user.FavouriteMovies.includes(movie._id));
+        // First check that the user exists, and that user.FavouriteMovies also exists
+        if (user && user.FavouriteMovies) {
+            // If it does, then set favouriteMoviesArray to the filtered list of movies from the user's favourites
+            favouriteMoviesArray = movies.filter(movie => user.FavouriteMovies.includes(movie._id));
+        } else {
+            // Else favouriteMoviesArray is empty
+            favouriteMoviesArray = [];
+        }
 
         return (
             <div className="profile_view">
@@ -185,7 +195,7 @@ export class ProfileView extends React.Component {
                             <Form.Group controlId="updateFormUsername">
                                 <Form.Label>Username:</Form.Label>
                                 {/* When the input is changed, call handleFieldChange to update the state variables as required */}
-                                <Form.Control name="username" type="text" onChange={this.handleFieldChange} required />
+                                <Form.Control name="username" type="text" onChange={this.handleFieldChange} required defaultValue={user.Username} />
                                 {/* Validation message which will only display on failed validation */}
                                 <Form.Control.Feedback type="invalid">Please enter a username</Form.Control.Feedback>
                             </Form.Group>
@@ -198,13 +208,13 @@ export class ProfileView extends React.Component {
 
                             <Form.Group controlId="updateFormEmail">
                                 <Form.Label>Email:</Form.Label>
-                                <Form.Control name="email" type="email" onChange={this.handleFieldChange} required />
+                                <Form.Control name="email" type="email" onChange={this.handleFieldChange} required defaultValue={user.Email} />
                                 <Form.Control.Feedback type="invalid">Please enter a valid email address</Form.Control.Feedback>
                             </Form.Group>
 
                             <Form.Group controlId="updateDateOfBirth">
                                 <Form.Label>Date of Birth:</Form.Label>
-                                <Form.Control name="birthDate" type="date" onChange={this.handleFieldChange} />
+                                <Form.Control name="birthDate" type="date" onChange={this.handleFieldChange} defaultValue={Intl.DateTimeFormat('fr-ca').format(new Date(user.Birthday))} />
                             </Form.Group>
 
                             {/* Button for updating the details which will call updateUserDetails (defined above) */}

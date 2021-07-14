@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 
 // Import the Link component from react-router-dom for the View Movie Details button
 import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 // Import necessary Bootstrap components
 import Card from 'react-bootstrap/Card';
@@ -67,6 +68,7 @@ export class MovieView extends React.Component {
         }).then(response => {
             // window.open refreshes the page to make sure this movie is correctly displaying as a favourite
             window.open(`/movies/${this.props.movie._id}`, '_self');
+            // this.props.history.push(`/movies/${this.props.movie._id}`);
         }).catch(function(error) {
             console.log(error);
         });
@@ -81,6 +83,7 @@ export class MovieView extends React.Component {
         }).then(response => {
             // window.open refreshes the page to make sure this movie is correctly displaying as not a favourite
             window.open(`/movies/${this.props.movie._id}`, '_self');
+            // this.props.history.push(`/movies/${this.props.movie._id}`);
         }).catch(function(error) {
             console.log(error);
         });
@@ -92,13 +95,22 @@ export class MovieView extends React.Component {
 
         // This section of code sets a flag which will show a add/remove favourites button depending on if the movie can be found in the users favourites
         let tempArray = user.FavouriteMovies;
-        let isFavouriteNew = false
-        if (tempArray.includes(movie._id)) {
+        let isFavouriteNew = false;
+        if (tempArray && tempArray.includes(movie._id)) {
             isFavouriteNew = true;
         } else {
             isFavouriteNew = false;
-        };
-        console.log(isFavouriteNew)
+        }
+
+        // if (tempArray === undefined) {
+        //     tempArray = [];
+        // }
+        // if (tempArray.includes(movie._id)) {
+        //     isFavouriteNew = true;
+        // } else {
+        //     isFavouriteNew = false;
+        // };
+        // console.log(isFavouriteNew)    
 
         // Return a single div (movie-view) that contains divs for the ImagePath, Title and Description
         return (
