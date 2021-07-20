@@ -28,10 +28,10 @@ export class ProfileView extends React.Component {
         this.state = {
             userDetails: [],
             validated: false,
-            username: '',
+            username: this.props.user.Username,
             password: '',
-            email: '',
-            birthDate: '',
+            email: this.props.user.Email,
+            birthDate: this.props.user.Birthday,
             favouriteMovies: [],
             modalState: false
         }
@@ -102,7 +102,7 @@ export class ProfileView extends React.Component {
     // Function for updating the appropriate state variables as the user fills out the update form
     handleFieldChange(event) {
         let {name, value} = event.target;
-        this.setState({ [name]: value})
+        this.setState({ [name]: value })
     }
 
     // Function to show the modal that confirms you want to delete a user profile

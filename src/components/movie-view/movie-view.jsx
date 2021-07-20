@@ -65,7 +65,7 @@ export class MovieView extends React.Component {
         // I'm not sure why I need the first {} (before the headers). but without those empty brackets all my requests returned unauthorized
         axios.post(`https://t-dogg-movies-api.herokuapp.com/users/${user}/Movies/${this.props.movie._id}`, {}, {
             headers: { Authorization: `Bearer ${token}` }
-        }).then(response => {
+        }).then(() => {
             // window.open refreshes the page to make sure this movie is correctly displaying as a favourite
             window.open(`/movies/${this.props.movie._id}`, '_self');
             // this.props.history.push(`/movies/${this.props.movie._id}`);
@@ -80,7 +80,7 @@ export class MovieView extends React.Component {
         let user = localStorage.getItem('user');
         axios.delete(`https://t-dogg-movies-api.herokuapp.com/users/${user}/Movies/${this.props.movie._id}`, {
             headers: { Authorization: `Bearer ${token}` }
-        }).then(response => {
+        }).then(() => {
             // window.open refreshes the page to make sure this movie is correctly displaying as not a favourite
             window.open(`/movies/${this.props.movie._id}`, '_self');
             // this.props.history.push(`/movies/${this.props.movie._id}`);

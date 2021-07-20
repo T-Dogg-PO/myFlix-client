@@ -22471,7 +22471,7 @@ class MovieView extends _reactDefault.default.Component {
             headers: {
                 Authorization: `Bearer ${token}`
             }
-        }).then((response)=>{
+        }).then(()=>{
             // window.open refreshes the page to make sure this movie is correctly displaying as a favourite
             window.open(`/movies/${this.props.movie._id}`, '_self');
         // this.props.history.push(`/movies/${this.props.movie._id}`);
@@ -22487,7 +22487,7 @@ class MovieView extends _reactDefault.default.Component {
             headers: {
                 Authorization: `Bearer ${token}`
             }
-        }).then((response)=>{
+        }).then(()=>{
             // window.open refreshes the page to make sure this movie is correctly displaying as not a favourite
             window.open(`/movies/${this.props.movie._id}`, '_self');
         // this.props.history.push(`/movies/${this.props.movie._id}`);
@@ -32595,10 +32595,10 @@ class ProfileView extends _reactDefault.default.Component {
         this.state = {
             userDetails: [],
             validated: false,
-            username: '',
+            username: this.props.user.Username,
             password: '',
-            email: '',
-            birthDate: '',
+            email: this.props.user.Email,
+            birthDate: this.props.user.Birthday,
             favouriteMovies: [],
             modalState: false
         };
