@@ -33,6 +33,7 @@ export class MovieView extends React.Component {
         // Bind these additional functions that will get called by onClick events to 'this'
         this.addFavourite = this.addFavourite.bind(this);
         this.removeFavourite = this.removeFavourite.bind(this);
+        this.getUserDetails = this.getUserDetails.bind(this);
     }
 
     // During componentDidMount() get the user's details (for displaying whether this movie is a favourite or not)
@@ -67,7 +68,8 @@ export class MovieView extends React.Component {
             headers: { Authorization: `Bearer ${token}` }
         }).then(() => {
             // window.open refreshes the page to make sure this movie is correctly displaying as a favourite
-            window.open(`/movies/${this.props.movie._id}`, '_self');
+            // window.open(`/movies/${this.props.movie._id}`, '_self');
+            this.getUserDetails(token);
             // this.props.history.push(`/movies/${this.props.movie._id}`);
         }).catch(function(error) {
             console.log(error);
@@ -82,7 +84,8 @@ export class MovieView extends React.Component {
             headers: { Authorization: `Bearer ${token}` }
         }).then(() => {
             // window.open refreshes the page to make sure this movie is correctly displaying as not a favourite
-            window.open(`/movies/${this.props.movie._id}`, '_self');
+            // window.open(`/movies/${this.props.movie._id}`, '_self');
+            this.getUserDetails(token);
             // this.props.history.push(`/movies/${this.props.movie._id}`);
         }).catch(function(error) {
             console.log(error);

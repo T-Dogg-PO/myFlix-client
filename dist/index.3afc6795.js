@@ -22437,6 +22437,7 @@ class MovieView extends _reactDefault.default.Component {
         // Bind these additional functions that will get called by onClick events to 'this'
         this.addFavourite = this.addFavourite.bind(this);
         this.removeFavourite = this.removeFavourite.bind(this);
+        this.getUserDetails = this.getUserDetails.bind(this);
     }
     // During componentDidMount() get the user's details (for displaying whether this movie is a favourite or not)
     componentDidMount() {
@@ -22473,7 +22474,8 @@ class MovieView extends _reactDefault.default.Component {
             }
         }).then(()=>{
             // window.open refreshes the page to make sure this movie is correctly displaying as a favourite
-            window.open(`/movies/${this.props.movie._id}`, '_self');
+            // window.open(`/movies/${this.props.movie._id}`, '_self');
+            this.getUserDetails(token);
         // this.props.history.push(`/movies/${this.props.movie._id}`);
         }).catch(function(error) {
             console.log(error);
@@ -22489,7 +22491,8 @@ class MovieView extends _reactDefault.default.Component {
             }
         }).then(()=>{
             // window.open refreshes the page to make sure this movie is correctly displaying as not a favourite
-            window.open(`/movies/${this.props.movie._id}`, '_self');
+            // window.open(`/movies/${this.props.movie._id}`, '_self');
+            this.getUserDetails(token);
         // this.props.history.push(`/movies/${this.props.movie._id}`);
         }).catch(function(error) {
             console.log(error);
@@ -22517,19 +22520,19 @@ class MovieView extends _reactDefault.default.Component {
             border: "dark",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
-                lineNumber: 117
+                lineNumber: 120
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_cardDefault.default.Body, {
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
-                lineNumber: 118
+                lineNumber: 121
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_rowDefault.default, {
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
-                lineNumber: 119
+                lineNumber: 122
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_colDefault.default, {
@@ -22537,7 +22540,7 @@ class MovieView extends _reactDefault.default.Component {
             md: 6,
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
-                lineNumber: 120
+                lineNumber: 123
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_cardDefault.default.Img, {
@@ -22546,7 +22549,7 @@ class MovieView extends _reactDefault.default.Component {
             className: "big_image",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
-                lineNumber: 121
+                lineNumber: 124
             },
             __self: this
         })), /*#__PURE__*/ _reactDefault.default.createElement(_colDefault.default, {
@@ -22554,62 +22557,62 @@ class MovieView extends _reactDefault.default.Component {
             md: 6,
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
-                lineNumber: 123
+                lineNumber: 126
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_cardDefault.default.Title, {
             className: "text-center",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
-                lineNumber: 124
+                lineNumber: 127
             },
             __self: this
         }, movie.Title), /*#__PURE__*/ _reactDefault.default.createElement(_cardDefault.default.Text, {
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
-                lineNumber: 125
+                lineNumber: 128
             },
             __self: this
         }, movie.Description), movie.Genre.Name && /*#__PURE__*/ _reactDefault.default.createElement(_cardDefault.default.Text, {
             className: "genre_heading",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
-                lineNumber: 128
+                lineNumber: 131
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement("span", {
             className: "genre_title",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
-                lineNumber: 128
+                lineNumber: 131
             },
             __self: this
         }, "Genre: "), /*#__PURE__*/ _reactDefault.default.createElement(_reactRouterDom.Link, {
             to: `/genres/${movie.Genre.Name}`,
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
-                lineNumber: 128
+                lineNumber: 131
             },
             __self: this
         }, movie.Genre.Name)), movie.Director.Name && /*#__PURE__*/ _reactDefault.default.createElement(_cardDefault.default.Text, {
             className: "director_heading",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
-                lineNumber: 131
+                lineNumber: 134
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement("span", {
             className: "director_title",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
-                lineNumber: 131
+                lineNumber: 134
             },
             __self: this
         }, "Directed by "), /*#__PURE__*/ _reactDefault.default.createElement(_reactRouterDom.Link, {
             to: `/directors/${movie.Director.Name}`,
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
-                lineNumber: 131
+                lineNumber: 134
             },
             __self: this
         }, movie.Director.Name)), /*#__PURE__*/ _reactDefault.default.createElement(_buttonDefault.default, {
@@ -22618,7 +22621,7 @@ class MovieView extends _reactDefault.default.Component {
             varient: "link",
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
-                lineNumber: 133
+                lineNumber: 136
             },
             __self: this
         }, "Back"), isFavouriteNew ? /*#__PURE__*/ _reactDefault.default.createElement(_buttonDefault.default, {
@@ -22627,7 +22630,7 @@ class MovieView extends _reactDefault.default.Component {
             onClick: this.removeFavourite,
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
-                lineNumber: 136
+                lineNumber: 139
             },
             __self: this
         }, "Remove from Favourites") : /*#__PURE__*/ _reactDefault.default.createElement(_buttonDefault.default, {
@@ -22636,7 +22639,7 @@ class MovieView extends _reactDefault.default.Component {
             onClick: this.addFavourite,
             __source: {
                 fileName: "C:\\Users\\Vanessa\\Documents\\careerFoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
-                lineNumber: 140
+                lineNumber: 143
             },
             __self: this
         }, "Add to Favourites"))))));
