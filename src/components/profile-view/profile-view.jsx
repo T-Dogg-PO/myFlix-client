@@ -182,7 +182,7 @@ export class ProfileView extends React.Component {
                         <Card.Text><span className="profile_heading">Email: </span>{user.Email}</Card.Text>
                         {/* Only display birthday section if a user has filled that out (since it's the only optional section) */}
                         {user.Birthday && (
-                            <Card.Text><span className="profile_heading">Date of Birth: </span>{Intl.DateTimeFormat().format(new Date(user.Birthday))}</Card.Text>
+                            <Card.Text><span className="profile_heading">Date of Birth: </span>{new Intl.DateTimeFormat().format(new Date(user.Birthday))}</Card.Text>
                         )}
                     </Card.Body>
                 </Card>
@@ -214,7 +214,7 @@ export class ProfileView extends React.Component {
 
                             <Form.Group controlId="updateDateOfBirth">
                                 <Form.Label>Date of Birth:</Form.Label>
-                                <Form.Control name="birthDate" type="date" onChange={this.handleFieldChange} defaultValue={Intl.DateTimeFormat('fr-ca').format(new Date(user.Birthday))} />
+                                <Form.Control name="birthDate" type="date" onChange={this.handleFieldChange} defaultValue={new Intl.DateTimeFormat('fr-ca').format(new Date(user.Birthday))} />
                             </Form.Group>
 
                             {/* Button for updating the details which will call updateUserDetails (defined above) */}
