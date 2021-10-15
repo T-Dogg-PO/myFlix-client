@@ -1,0 +1,40 @@
+
+
+.card_styling {
+  height: 100%;
+}
+
+.truncated_text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+.genre_heading, .director_heading {
+  border-top: 1px solid black;
+  padding-top: 10px;
+}
+
+.genre_title, .director_title {
+  font-weight: bold;
+}
+.genre-view-btn {
+  display: block !important;
+}
+.customHeading {
+  font-weight: bold;
+}
+
+.director-view-btn {
+  display: block !important;
+}
+.profile_heading {
+  font-weight: bold;
+}
+
+* {
+  background-color: #EEFDFF;
+  font-family: "Krub", sans-serif;
+}
+/*# sourceMappingURL=index.1d334ea1.css.map */
